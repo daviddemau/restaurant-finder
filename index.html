@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Geolocation</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+<body>
+  <div class="main">
+    <div class="map"></div>
+    <div class="reviews">
+      <h2>Liste des restaurants près de chez vous:</h2>
+      <div class="filterText">
+        <span>Avis entre</span>
+        <select class="filter1">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <span>et </span>
+        <select class="filter2">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option selected="5" value="5">5</option>
+        </select>
+        <span><i class="fas fa-star"></i></span>
+        <input type="submit" class="submit" value="Rechercher">
+      </div>
+      <ul class="list"></ul>
+    </div>
+    <div class="newPlaceInfos">
+    </div>
+  </div>
+
+  <form class="newRestaurantForm">
+    <label>Nom du restaurant</label>
+    <input class="newRestaurantInput nameNewRestaurant" type="text" placeholder="nom du restaurant..">
+
+    <label>Votre avis</label>
+    <input class="newRestaurantInput commentNewRestaurant" type="text" placeholder="votre commentaire..">
+
+    <label>Note sur 5</label>
+    <select class="newRestaurantInput">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <input class="newRestaurantSubmit" type="submit" value="Submit">
+  </form>
+
+
+  <script src="ressources/restaurants.js" charset="utf-8"></script>
+  <script type="text/javascript" src="scripts/script.js"></script>
+  <script type="text/javascript" src="scripts/map.js"></script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy2o8ardrB-Njyi7V_90eAiuI_Kk5B4u8&callback=initMap">
+  </script>
+</body>
+</html>
