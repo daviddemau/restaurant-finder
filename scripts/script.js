@@ -19,13 +19,12 @@ let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 let closeInput = document.querySelector('.fa-times');
 
 
-//add a new restaurant on right column when form submitted
+//add a new restaurant when submit button is cliqued
 newRestaurantSubmit.addEventListener('click', () => {
-  addRestaurantsRightColumn(newName.value, newComment.value, newRating.value, newPos.lat, newPos.long);
-  addListeners();
-  //add listeners on map to get infos on new restaurant added
-  displayInfosOnMap(newName.value, newRating.value, newPos.lat, newPos.lng);
-  addInfoWindows(newMarker);
+  //reset list on the right
+  displayRestaurantsList();
+  //reset markers on the map (add one marker)
+  displayMapRestaurants()
   closeInputWindow();
 })
 
@@ -102,6 +101,7 @@ function addListeners () {
   let commentInput = document.querySelectorAll('.commentInput');
   Array.from(commentInput).forEach(addComment);
 }
+
 function closeInputWindow() {
   document.querySelector('.main').style.filter = 'none';
   newRestaurantForm.style.display = 'none';
