@@ -1,3 +1,6 @@
+// clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
+
+
 //variables
 let list = document.querySelector('.list');
 let data = restaurants_list;
@@ -18,13 +21,15 @@ let newRating = document.querySelector('.newRestaurantRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 let closeInput = document.querySelector('.fa-times');
 
-
 //add a new restaurant when submit button is cliqued
 newRestaurantSubmit.addEventListener('click', () => {
+
+  //create a new restaurant object on click, add it to memory (session storage/array)
+
   //reset list on the right
   displayRestaurantsList();
   //reset markers on the map (add one marker)
-  displayMapRestaurants()
+  displayRestaurantsMap()
   closeInputWindow();
 })
 

@@ -36,16 +36,19 @@ function initMap() {
       };
 
       //get infos about restaurants then display on map
-      displayMapRestaurants();
+      displayRestaurantsMap();
+
 
       google.maps.event.addListener(map, 'click', function(event) {
         //place new marker on click position
         placeMarker(event.latLng);
+
         openInputWindow();
         newPos = {
           lat: event.latLng.lat(),
           long: event.latLng.lng(),
         }
+
       });
 
     }, function() {
@@ -58,7 +61,7 @@ function initMap() {
 }
 
 
-function displayMapRestaurants() {
+function displayRestaurantsMap() {
   for (var i = 0; i < data.length; i++) {
     var restaurant = data[i];
     var foodMarker = new google.maps.Marker({
@@ -74,7 +77,7 @@ function displayMapRestaurants() {
 }
 
 function displayInfosOnMap(restaurant) {
-  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName+ '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName+ '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
 }
 
 
