@@ -1,4 +1,5 @@
-var map, infoWindow, image;
+var map, infoWindow, image, contentString, newPos, newMarker;
+var markersArray = [];
 
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
@@ -36,20 +37,15 @@ function initMap() {
       //get infos about restaurants then display on map
       displayMapRestaurants();
 
-      //create a new marker when map is clicked
       google.maps.event.addListener(map, 'click', function(event) {
-        document.querySelector('.main').style.filter = 'blur(7px)';
-        newRestaurantForm.style.display = 'block';
-        list.innerHTML += '<li class="name">' + restaurant.restaurantName + '<span class="stars">' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' + '<h3>Les avis sur cette maison:</h3>' + '<div class="comments">' + commentsList.join('') + '</div>' + '<button class="commentButton">Ajouter un commentaire</button>' + '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
+        //place new marker on click position
+        placeMarker(event.latLng);
+        openInputWindow();
+        newPos = {
+          lat: event.latLng.lat(),
+          long: event.latLng.lng(),
+        }
       });
-
-      function placeMarker(location) {
-        var newMarker = new google.maps.Marker({
-          position: location,
-          map: map,
-          icon: image
-        });
-      }
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -60,6 +56,13 @@ function initMap() {
   }
 }
 
+function placeMarker(location) {
+  newMarker = new google.maps.Marker({
+    position: location,
+    map: map,
+    icon: image
+  });
+}
 
 function displayMapRestaurants() {
   for (var i = 0; i < data.length; i++) {
@@ -69,23 +72,25 @@ function displayMapRestaurants() {
       map: map,
       icon: image,
     });
-
     getRatings(restaurant);
     getComments(restaurant);
-
-    var contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName + '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' + '<p class="mapReview">Les avis sur cette maison:</p>' + '<div class="mapComments">' +  commentsList.join('') + '</div>' + '</div>';
-
-    foodMarker.info = new google.maps.InfoWindow({
-      content: contentString,
-    });
-
-    //display restaurant informations when marker clicked
-    google.maps.event.addListener(foodMarker, 'click', function () {
-      this.info.open(map, this);
-    });
+    displayInfosOnMap(restaurant.restaurantName, averageRatings ,restaurant.lat, restaurant.long);
   }
 }
 
+function addInfoWindows(marker) {
+  marker.info = new google.maps.InfoWindow({
+    content: contentString,
+  });
+  //display restaurant informations when marker clicked
+  google.maps.event.addListener(marker, 'click', function () {
+    this.info.open(map, this);
+  });
+}
+
+function displayInfosOnMap(name, ratings, lat, long) {
+  contentString = '<div class="infosMap">' + '<h3>' + name + '<span>' + ratings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x100&location='+lat+','+long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);

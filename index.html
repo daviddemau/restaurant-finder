@@ -38,25 +38,21 @@
     <div class="newPlaceInfos">
     </div>
   </div>
-
   <form class="newRestaurantForm">
-    <label>Nom du restaurant</label>
+    <label>Nom du restaurant</label><i class="fa fa-times"></i>
     <input class="newRestaurantInput nameNewRestaurant" type="text" placeholder="nom du restaurant..">
-
     <label>Votre avis</label>
     <input class="newRestaurantInput commentNewRestaurant" type="text" placeholder="votre commentaire..">
-
-    <label>Note sur 5</label>
-    <select class="newRestaurantInput">
+    <label for="country">Note sur 5</label>
+    <select class="newRestaurantRating">
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <input class="newRestaurantSubmit" type="submit" value="Submit">
+    <button class="newRestaurantSubmit" type="button">Ajouter le restaurant</button>
   </form>
-
 
   <script src="ressources/restaurants.js" charset="utf-8"></script>
   <script type="text/javascript" src="scripts/script.js"></script>

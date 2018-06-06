@@ -38,6 +38,10 @@ h2 {
   color: rgb(201, 209, 27);
 }
 
+.fa-times {
+  float: right;
+}
+
 .reviews {
   width: 38%;
   display: inline-block;
@@ -129,8 +133,8 @@ h3 span {
   display: none;
   width: 30%;
   margin-left: 35%;
-  margin-top: -25%;
   position: absolute;
+  top: 20%;
 }
 
 .newRestaurantInput {
@@ -156,4 +160,12 @@ h3 span {
 
 .newRestaurantSubmit:hover {
     background-color: #45a049;
+}
+
+/* closing tag on input field */
+.close {
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
 }
