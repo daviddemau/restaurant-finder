@@ -6,6 +6,7 @@ function initMap() {
     center: {lat: 48.8566, lng: 2.3522},
     zoom: 15
   });
+
   //get our current location (latitude and longitude)
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -56,13 +57,6 @@ function initMap() {
   }
 }
 
-function placeMarker(location) {
-  newMarker = new google.maps.Marker({
-    position: location,
-    map: map,
-    icon: image
-  });
-}
 
 function displayMapRestaurants() {
   for (var i = 0; i < data.length; i++) {
@@ -74,9 +68,15 @@ function displayMapRestaurants() {
     });
     getRatings(restaurant);
     getComments(restaurant);
-    displayInfosOnMap(restaurant.restaurantName, averageRatings ,restaurant.lat, restaurant.long);
+    displayInfosOnMap(restaurant);
+    addInfoWindows(foodMarker);
   }
 }
+
+function displayInfosOnMap(restaurant) {
+  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName+ '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+}
+
 
 function addInfoWindows(marker) {
   marker.info = new google.maps.InfoWindow({
@@ -88,9 +88,14 @@ function addInfoWindows(marker) {
   });
 }
 
-function displayInfosOnMap(name, ratings, lat, long) {
-  contentString = '<div class="infosMap">' + '<h3>' + name + '<span>' + ratings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x100&location='+lat+','+long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+function placeMarker(location) {
+  newMarker = new google.maps.Marker({
+    position: location,
+    map: map,
+    icon: image
+  });
 }
+
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);

@@ -42,17 +42,19 @@ displayRestaurantsList();
 function displayRestaurantsList() {
   list.innerHTML = '';
   data.forEach((restaurant) => {
-
     getRatings(restaurant);
     getComments(restaurant);
-
     if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
       //display elements on screen
-      addRestaurantsRightColumn(restaurant.restaurantName, commentsList.join(''), averageRatings, restaurant.lat, restaurant.long);
+      addRestaurantsRightColumn(restaurant);
     }
   })
   //add click listeners
   addListeners();
+}
+
+function addRestaurantsRightColumn(place) {
+  list.innerHTML += '<li class="name">' + place.restaurantName + '<span class="stars">' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+place.lat+','+place.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' + '<h3>Les avis sur cette maison:</h3>' + '<div class="comments">' + commentsList + '</div>' + '<button class="commentButton">Ajouter un commentaire</button>' + '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
 }
 
 function getRatings(place) {
@@ -63,7 +65,7 @@ function getRatings(place) {
 }
 
 function getComments(place) {
-  commentsList = place.ratings.map((e) => '<p class="comment">' + '=>  ' + e.comment + '</p>');
+  commentsList = place.ratings.map((e) => '<p class="comment">' + '=>  ' + e.comment + '</p>').join('');
 }
 
 function toggleShow(e) {
@@ -100,11 +102,6 @@ function addListeners () {
   let commentInput = document.querySelectorAll('.commentInput');
   Array.from(commentInput).forEach(addComment);
 }
-
-function addRestaurantsRightColumn(name, comments, ratings, lat, lgn) {
-  list.innerHTML += '<li class="name">' + name + '<span class="stars">' + ratings + '</span>' + '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+lat+','+lgn+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' + '<h3>Les avis sur cette maison:</h3>' + '<div class="comments">' + comments + '</div>' + '<button class="commentButton">Ajouter un commentaire</button>' + '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
-}
-
 function closeInputWindow() {
   document.querySelector('.main').style.filter = 'none';
   newRestaurantForm.style.display = 'none';
