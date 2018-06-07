@@ -1,52 +1,66 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
 
+let data = restaurants_list.slice();
 
 //variables
 let list = document.querySelector('.list');
-let data = restaurants_list;
 let averageRatings;
 let commentsList;
 let closingTag = document.querySelector('.fa-times');
 
-//select filter elements
+//select filter elements (choose between X and Y stars)
 let filter1 = document.querySelector('.filter1');
 let filter2 = document.querySelector('.filter2');
 let filterButton = document.querySelector('.submit');
 
-//target elements when map is clicked
+//target elements (newRestaurant form)
 let newRestaurantForm = document.querySelector('.newRestaurantForm');
 let newName = document.querySelector('.nameNewRestaurant');
 let newComment = document.querySelector('.commentNewRestaurant');
 let newRating = document.querySelector('.newRestaurantRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
-let closeInput = document.querySelector('.fa-times');
+
+//call default restaurant list on screen (ratings between 1 and 5 by default)
+displayRestaurantsList();
 
 //add a new restaurant when submit button is cliqued
 newRestaurantSubmit.addEventListener('click', () => {
-
   //create a new restaurant object on click, add it to memory (session storage/array)
+  newRestaurant = {
+     "restaurantName": newName.value,
+     "lat": newPosition.lat,
+     "long": newPosition.long,
+     "ratings":[
+        {
+           "stars": newRating.value,
+           "comment": newComment.value,
+        },
+     ]
+  };
 
-  //reset list on the right
+  data.push(newRestaurant);
+
+  //reset restaurant list on the right column
   displayRestaurantsList();
-  //reset markers on the map (add one marker)
-  displayRestaurantsMap()
+
+  //reset markers on the map
+  displayRestaurantsMap();
   closeInputWindow();
 })
 
 //close newInput when close icon clicked
+let closeInput = document.querySelector('.fa-times');
 closeInput.addEventListener('click', closeInputWindow);
 
 //filter the restaurants List
 filterButton.addEventListener('click', displayRestaurantsList);
-
-//call default restaurant list on screen (ratings between 1 and 5 by default)
-displayRestaurantsList();
 
 //functions
 function displayRestaurantsList() {
   list.innerHTML = '';
   data.forEach((restaurant) => {
     getRatings(restaurant);
+
     getComments(restaurant);
     if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
       //display elements on screen
@@ -63,9 +77,15 @@ function addRestaurantsRightColumn(place) {
 
 function getRatings(place) {
   //get average ratings for all places
-  averageRatings = place.ratings.reduce((a, b) => {
-    return (a.stars + b.stars) / place.ratings.length;
-  })
+  if(place.ratings.length != 1) {
+    averageRatings = place.ratings.reduce((a, b) => {
+      if(place.ratings.length > 1) {
+        return (a.stars + b.stars) / place.ratings.length;
+      }
+    })
+  } else {
+    averageRatings = place.ratings[0].stars;
+  }
 }
 
 function getComments(place) {
@@ -81,6 +101,7 @@ function toggleShow(e) {
     }
   })
 }
+
 
 function addComment (e) {
   e.addEventListener('keypress', (event) => {
@@ -110,6 +131,7 @@ function addListeners () {
 function closeInputWindow() {
   document.querySelector('.main').style.filter = 'none';
   newRestaurantForm.style.display = 'none';
+  newRestaurantForm.reset();
 }
 
 function openInputWindow() {

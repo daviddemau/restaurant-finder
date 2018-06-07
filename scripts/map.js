@@ -1,5 +1,6 @@
-var map, infoWindow, image, contentString, newPos, newMarker;
-var markersArray = [];
+let map, infoWindow, image, contentString, newPosition;
+
+let markersArray = [];
 
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
@@ -38,18 +39,16 @@ function initMap() {
       //get infos about restaurants then display on map
       displayRestaurantsMap();
 
-
+      //click event on the map : add a new restaurant
       google.maps.event.addListener(map, 'click', function(event) {
-        //place new marker on click position
-        placeMarker(event.latLng);
-
         openInputWindow();
-        newPos = {
-          lat: event.latLng.lat(),
-          long: event.latLng.lng(),
+        newPosition = {
+          "lat": event.latLng.lat(),
+          "long": event.latLng.lng(),
         }
-
       });
+
+      //when restaurant clicked on right list, center the map on this restaurant.
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -60,6 +59,7 @@ function initMap() {
   }
 }
 
+//functions
 
 function displayRestaurantsMap() {
   for (var i = 0; i < data.length; i++) {
@@ -69,19 +69,21 @@ function displayRestaurantsMap() {
       map: map,
       icon: image,
     });
+
+    markersArray.push(foodMarker);
     getRatings(restaurant);
     getComments(restaurant);
-    displayInfosOnMap(restaurant);
-    addInfoWindows(foodMarker);
+    createInfosWindows(restaurant);
+    addMarkerListeners(foodMarker);
   }
 }
 
-function displayInfosOnMap(restaurant) {
+function createInfosWindows(restaurant) {
   contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName+ '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
 }
 
 
-function addInfoWindows(marker) {
+function addMarkerListeners(marker) {
   marker.info = new google.maps.InfoWindow({
     content: contentString,
   });
