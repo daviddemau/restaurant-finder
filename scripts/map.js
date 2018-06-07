@@ -1,6 +1,6 @@
-let map, infoWindow, image, contentString, newPosition;
+let map, myPosition, infoWindow, image, contentString, newPosition;
 
-let markersArray = [];
+let markers = [];
 
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
@@ -11,18 +11,24 @@ function initMap() {
   //get our current location (latitude and longitude)
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
+      myPosition = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
 
       //center the map on user location
-      map.setCenter(pos);
+      map.setCenter(myPosition);
 
       //marker displaying user location
       var marker = new google.maps.Marker({
-        position: pos,
+        position: myPosition,
         map: map,
+      });
+      marker.info = new google.maps.InfoWindow({
+        content: "Vous Êtes Ici",
+      });
+      google.maps.event.addListener(marker, 'click', function () {
+        this.info.open(map, this);
       });
 
       //icon that represents a restaurant on the map
@@ -62,6 +68,7 @@ function initMap() {
 //functions
 
 function displayRestaurantsMap() {
+  markers = [];
   for (var i = 0; i < data.length; i++) {
     var restaurant = data[i];
     var foodMarker = new google.maps.Marker({
@@ -69,8 +76,7 @@ function displayRestaurantsMap() {
       map: map,
       icon: image,
     });
-
-    markersArray.push(foodMarker);
+    markers.push(foodMarker);
     getRatings(restaurant);
     getComments(restaurant);
     createInfosWindows(restaurant);

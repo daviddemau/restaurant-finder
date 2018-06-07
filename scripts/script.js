@@ -8,12 +8,18 @@ let averageRatings;
 let commentsList;
 let closingTag = document.querySelector('.fa-times');
 
-//select filter elements (choose between X and Y stars)
+//elements that will receive click listeners
+let restaurantNames = document.querySelectorAll('.name');
+let addCommentButtons = document.querySelectorAll('.commentButton');
+let commentInput = document.querySelectorAll('.commentInput');
+
+
+//filter elements (choose between X and Y stars)
 let filter1 = document.querySelector('.filter1');
 let filter2 = document.querySelector('.filter2');
 let filterButton = document.querySelector('.submit');
 
-//target elements (newRestaurant form)
+//new restaurant form elements
 let newRestaurantForm = document.querySelector('.newRestaurantForm');
 let newName = document.querySelector('.nameNewRestaurant');
 let newComment = document.querySelector('.commentNewRestaurant');
@@ -37,12 +43,10 @@ newRestaurantSubmit.addEventListener('click', () => {
         },
      ]
   };
-
   data.push(newRestaurant);
 
   //reset restaurant list on the right column
   displayRestaurantsList();
-
   //reset markers on the map
   displayRestaurantsMap();
   closeInputWindow();
@@ -92,12 +96,19 @@ function getComments(place) {
   commentsList = place.ratings.map((e) => '<p class="comment">' + '=>  ' + e.comment + '</p>').join('');
 }
 
-function toggleShow(e) {
-  e.addEventListener('click', () => {
-    if(e.nextSibling.style.display == '') {
-      e.nextSibling.style.display = 'block';
+function toggleShow(element) {
+  element.addEventListener('click', () => {
+    let rank = Array.from(restaurantNames).indexOf(element);
+    if(element.nextSibling.style.display == '') {
+      //center the map around corresponding restaurant marker and open its info window
+      map.panTo(markers[rank].position);
+      markers[rank].info.open(map,markers[rank]);
+      //show comments and add comment button
+      element.nextSibling.style.display = 'block';
     } else {
-      e.nextSibling.style.display = '';
+      markers[rank].info.close(map,markers[rank]);
+      map.panTo(myPosition);
+      element.nextSibling.style.display = '';
     }
   })
 }
@@ -116,15 +127,15 @@ function addComment (e) {
 
 function addListeners () {
   //show or hide restaurant comments on click
-  let restaurantNames = document.querySelectorAll('.name');
+  restaurantNames = document.querySelectorAll('.name');
   Array.from(restaurantNames).forEach(toggleShow);
 
   //show or hide add new comment input
-  let addCommentButtons = document.querySelectorAll('.commentButton');
+  addCommentButtons = document.querySelectorAll('.commentButton');
   Array.from(addCommentButtons).forEach(toggleShow);
 
   //add comment from input
-  let commentInput = document.querySelectorAll('.commentInput');
+  commentInput = document.querySelectorAll('.commentInput');
   Array.from(commentInput).forEach(addComment);
 }
 
