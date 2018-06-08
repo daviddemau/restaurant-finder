@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: rgb(251, 246, 246);
+  background: rgb(242, 241, 241);
   font-family: 'Karla', sans-serif;
 }
 
@@ -103,14 +103,21 @@ ul {
 
 /* styles on map */
 
-h3 span {
-  float: right;
-  margin-right: 50px;
+h3  {
+  color: #4bba50;
+  font-weight: bold;
 }
 
 .infosMap {
-  font-weight: 200;
-  width: 220px;
+  width: 150px;
+}
+
+.infosMap span {
+  font-weight: bold;
+}
+
+.infosMap p {
+  font-size: 10px;
 }
 
 .mapReview {
@@ -163,10 +170,11 @@ h3 span {
 }
 
 /* closing tag on input field */
-.close {
-  right: 32px;
-  top: 32px;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
+
+.fa-times:before {
+right: 32px;
+top: 32px;
+width: 32px;
+height: 32px;
+cursor: pointer;
 }

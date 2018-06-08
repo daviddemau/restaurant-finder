@@ -1,4 +1,4 @@
-let map, myPosition, infoWindow, image, contentString, newPosition;
+let map, myPosition, infoWindow, image, contentString, newPosition, service;
 
 let markers = [];
 
@@ -33,13 +33,7 @@ function initMap() {
 
       //icon that represents a restaurant on the map
       image = {
-        url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-        // This marker is 20 pixels wide by 32 pixels high.
-        size: new google.maps.Size(20, 32),
-        // The origin for this image is (0, 0).
-        origin: new google.maps.Point(0, 0),
-        // The anchor for this image is the base of the flagpole at (0, 32).
-        anchor: new google.maps.Point(0, 32)
+        url: 'ressources/restaurant.png',
       };
 
       //get infos about restaurants then display on map
@@ -54,7 +48,15 @@ function initMap() {
         }
       });
 
-      //when restaurant clicked on right list, center the map on this restaurant.
+      //Places API method. find nearBy restaurants (get restaurant IDs)
+      var request = {
+        location: myPosition,
+        radius: '800',
+        type: ['restaurant']
+      };
+
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -65,7 +67,38 @@ function initMap() {
   }
 }
 
+
+
 //functions
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+
+      var request = {
+        placeId: results[i]['place_id']
+      }
+      //Places API method. to get detailed data (including reviews)
+      service = new google.maps.places.PlacesService(map);
+      service.getDetails(request, callback);
+
+      function callback(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+          contentString = '<div class="infosMap">' + '<h3>' + place.name + '</h3>' + '<p>' + 'Moyenne des avis: ' + place.rating + '<i class="fas fa-star"></i>' + '</p>' + '<p>' + 'Adresse: ' + place.formatted_address + '</p>' + '<p>' + 'Numéro de téléphone: ' + place.formatted_phone_number + '</p>';
+
+          var infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+
+          placeMarker(place.geometry.location);
+          addMarkerListeners(newMarker, contentString)
+        }
+      }
+    }
+  }
+}
+
 
 function displayRestaurantsMap() {
   markers = [];
@@ -80,18 +113,19 @@ function displayRestaurantsMap() {
     getRatings(restaurant);
     getComments(restaurant);
     createInfosWindows(restaurant);
-    addMarkerListeners(foodMarker);
+    addMarkerListeners(foodMarker, contentString);
   }
 }
 
 function createInfosWindows(restaurant) {
-  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName+ '<span>' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</h3>' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName + '</h3>' + '<p>' + 'Moyenne des avis: ' + averageRatings + '<i class="fas fa-star"></i>' + '</p>';
+   // '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x150&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76'+
+   // '&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
 }
 
-
-function addMarkerListeners(marker) {
+function addMarkerListeners(marker, content) {
   marker.info = new google.maps.InfoWindow({
-    content: contentString,
+    content: content,
   });
   //display restaurant informations when marker clicked
   google.maps.event.addListener(marker, 'click', function () {

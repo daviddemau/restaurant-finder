@@ -7,7 +7,7 @@ var restaurants_list = [
       "ratings":[
          {
             "stars":4,
-            "comment":"Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer les pizzas non-vegans."
+            "comment":"Un excellent restwaurant, j'y reviendrai ! Par contre il vaut mieux aimer les pizzas non-vegans."
          },
          {
             "stars":3,
@@ -79,5 +79,4 @@ var restaurants_list = [
          }
       ]
    }
-
 ]
