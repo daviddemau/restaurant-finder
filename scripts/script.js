@@ -66,7 +66,7 @@ function displayRestaurantsList(place) {
   getAverageRating(place);
   getCommentsList(place);
   //make sure rating for this restaurant is between filters values on top of the list
-  if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
+  if(averageRatings >= filter1.value && averageRatings <= filter2.value || typeof averageRatings == 'string') {
     //display elements on screen
     addRestaurantsRightColumn(place);
   }
@@ -82,7 +82,7 @@ function getAverageRating(place) {
   let allReviews = place.reviews;
   //get average ratings for all places
   if(allReviews != undefined) {
-    if(allReviews.length != 1) {
+    if(allReviews.length > 1) {
       totalGrade = allReviews.reduce((a, b) => {
           return a + b.rating;
       }, 0)
@@ -90,7 +90,9 @@ function getAverageRating(place) {
     } else {
       averageRatings = allReviews[0].rating;
     }
-  } 
+  } else {
+    averageRatings = ' ';
+  }
   // console.log(place.name);
   // console.log(allReviews);
   // console.log(averageRatings);
@@ -102,7 +104,7 @@ function getCommentsList(place) {
       if(e.text != '') {
         return '<p class="comment">' + e.rating + '  =>  ' + e.text + '</p>';
       } else {
-        return '<p class="comment">'+ 'pas de commentaire disponible' + '</p>';
+        return '';
       }
     })
   } else {
