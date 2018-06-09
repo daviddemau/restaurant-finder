@@ -1,4 +1,5 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
+let lat, lng;
 
 let data = restaurants_list.slice();
 
@@ -29,31 +30,33 @@ let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 //call default restaurant list on screen (ratings between 1 and 5 by default)
 resetList();
 data.forEach((restaurant) => {
+  //get latitude and longitude for google street view
+  getPositionDefaultData(restaurant);
   displayRestaurantsList(restaurant);
 });
 
 //add a new restaurant when submit button is cliqued
-newRestaurantSubmit.addEventListener('click', () => {
-  //create a new restaurant object on click, add it to memory (session storage/array)
-  // newRestaurant = {
-  //    "restaurantName": newName.value,
-  //    "lat": newPosition.lat,
-  //    "long": newPosition.long,
-  //    "ratings":[
-  //       {
-  //          "stars": newRating.value,
-  //          "comment": newComment.value,
-  //       },
-  //    ]
-  // };
-  // data.push(newRestaurant);
-  //
-  // //reset restaurant list on the right column
-  // displayRestaurantsList();
-  // //reset markers on the map
-  // displayRestaurantsMap();
-  // closeInputWindow();
-})
+// newRestaurantSubmit.addEventListener('click', () => {
+//   //create a new restaurant object on click, add it to memory (session storage/array)
+//   newRestaurant = {
+//      "restaurantName": newName.value,
+//      "lat": newPosition.lat,
+//      "long": newPosition.long,
+//      "ratings":[
+//         {
+//            "stars": newRating.value,
+//            "comment": newComment.value,
+//         },
+//      ]
+//   };
+//   data.push(newRestaurant);
+//
+//   // //reset restaurant list on the right column
+//   displayRestaurantsList();
+//   //reset markers on the map
+//   displayRestaurantsMap();
+//   closeInputWindow();
+// })
 
 //close newInput when close icon clicked
 let closeInput = document.querySelector('.fa-times');
@@ -75,7 +78,13 @@ function displayRestaurantsList(place) {
 }
 
 function addRestaurantsRightColumn(place) {
-  list.innerHTML += '<li class="name">' + place.name + '<span class="stars">' + averageRatings + '</span>' + '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' + '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+place.geometry.location+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' + '<h3>Les avis sur cette maison:</h3>' + '<div class="comments">' + commentsList + '</div>' + '<button class="commentButton">Ajouter un commentaire</button>' + '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
+  list.innerHTML += '<li class="name">' + place.name + '<span class="stars">' + averageRatings + '</span>' +
+  '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' +
+  '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' +
+  '<h3>Les avis sur cette maison:</h3>' +
+  '<div class="comments">' + commentsList + '</div>' +
+  '<button class="commentButton">Ajouter un commentaire</button>' +
+  '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
 }
 
 function getAverageRating(place) {
@@ -86,16 +95,13 @@ function getAverageRating(place) {
       totalGrade = allReviews.reduce((a, b) => {
           return a + b.rating;
       }, 0)
-      averageRatings = totalGrade / allReviews.length;
+      averageRatings = (totalGrade / allReviews.length).toFixed(1);;
     } else {
-      averageRatings = allReviews[0].rating;
+      averageRatings = allReviews[0].rating.toFixed(1);
     }
   } else {
     averageRatings = ' ';
   }
-  // console.log(place.name);
-  // console.log(allReviews);
-  // console.log(averageRatings);
 }
 
 function getCommentsList(place) {
@@ -110,7 +116,6 @@ function getCommentsList(place) {
   } else {
     commentsList = '<p class="comment">' + '=>  ' + 'Pas de commentaire disponible' + '</p>';
   }
-
 }
 
 
@@ -119,13 +124,13 @@ function toggleShow(element) {
     let rank = Array.from(restaurantNames).indexOf(element);
     if(element.nextSibling.style.display == '') {
       //center the map around corresponding restaurant marker and open its info window
-      // map.panTo(markers[rank].position);
-      // markers[rank].info.open(map,markers[rank]);
+      map.panTo(markers[rank].position);
+      markers[rank].info.open(map,markers[rank]);
       //show comments and add comment button
       element.nextSibling.style.display = 'block';
     } else {
-      // markers[rank].info.close(map,markers[rank]);
-      // map.panTo(myPosition);
+      markers[rank].info.close(map,markers[rank]);
+      map.panTo(myPosition);
       element.nextSibling.style.display = '';
     }
   })
@@ -170,4 +175,14 @@ function openInputWindow() {
 
 function resetList() {
   list.innerHTML = '';
+}
+
+function getPositionDefaultData(element) {
+  lat = element.geometry.location.lat;
+  lng = element.geometry.location.lng;
+}
+
+function getPositionPlacesData(element) {
+  lat = element.geometry.location.lat();
+  lng = element.geometry.location.lng();
 }

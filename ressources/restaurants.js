@@ -19,7 +19,7 @@ var restaurants_list = [
       "name":"Les crêpes de Jean Michel",
       "formatted_address":"4 Rue Lamarck, 75018 Paris",
       "formatted_phone_number":"0556283552",
-      "geometry":{"location":{"lat":44.8493909, "lng":-0.6029705999999999}},
+      "geometry":{"location":{"lat":44.8473909, "lng":-0.6019705999999999}},
       "reviews":[
          {
             "rating":1,
@@ -35,7 +35,7 @@ var restaurants_list = [
       "name":"Thai's Noodles",
       "formatted_address":"39 Rue des Petites Écuries, 75010 Paris",
       "formatted_phone_number":"0556323539",
-      "geometry":{"location":{"lat":44.8483909, "lng":-0.6019705999999999}},
+      "geometry":{"location":{"lat":44.8383909, "lng":-0.6019705999999999}},
       "reviews":[
          {
             "rating":5,
@@ -51,7 +51,7 @@ var restaurants_list = [
       "name":"L'Amarylis",
       "formatted_address":"4 Rue Lamarck, 75018 Paris",
       "formatted_phone_number":"0556765431",
-      "geometry":{"location":{"lat":44.8343909, "lng":-0.6199705999999999}},
+      "geometry":{"location":{"lat":44.8343909, "lng":-0.6032705999999999}},
       "reviews":[
          {
             "rating":4,
@@ -67,7 +67,7 @@ var restaurants_list = [
       "name":"Brise De Mer",
       "formatted_address":"4 Rue Lamarck, 75018 Paris",
       "formatted_phone_number":"0556728346",
-      "geometry":{"location":{"lat":44.8413909, "lng":-0.6059705999999999}},
+      "geometry":{"location":{"lat":44.8403909, "lng":-0.6059705999999999}},
       "reviews":[
          {
             "rating":5,

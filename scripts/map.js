@@ -87,12 +87,9 @@ function callback(results, status) {
 
       function callback(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
+          getPositionPlacesData(place);
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
-          console.log(place);
-          console.log(place.rating)
-          console.log(place.reviews)
-          console.log(place.name);
         }
       }
     }
