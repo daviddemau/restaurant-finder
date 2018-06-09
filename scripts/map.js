@@ -37,7 +37,10 @@ function initMap() {
       };
 
       //get infos about restaurants then display on map
-      displayRestaurantsMap();
+      data.forEach((element) => {
+        displayRestaurantsMap(element);
+      });
+
 
       //click event on the map : add a new restaurant
       google.maps.event.addListener(map, 'click', function(event) {
@@ -84,54 +87,52 @@ function callback(results, status) {
 
       function callback(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-          contentString = '<div class="infosMap">' + '<h3>' + place.name + '</h3>' + '<p>' + 'Moyenne des avis: ' + place.rating + '<i class="fas fa-star"></i>' + '</p>' + '<p>' + 'Adresse: ' + place.formatted_address + '</p>' + '<p>' + 'Numéro de téléphone: ' + place.formatted_phone_number + '</p>';
-
-          var infowindow = new google.maps.InfoWindow({
-            content: contentString
-          });
-
-          placeMarker(place.geometry.location);
-          addMarkerListeners(newMarker, contentString)
+          displayRestaurantsMap(place);
+          displayRestaurantsList(place);
+          console.log(place);
+          console.log(place.rating)
+          console.log(place.reviews)
+          console.log(place.name);
         }
       }
     }
   }
 }
 
-
-function displayRestaurantsMap() {
-  markers = [];
-  for (var i = 0; i < data.length; i++) {
-    var restaurant = data[i];
-    var foodMarker = new google.maps.Marker({
-      position: {lat: restaurant.lat, lng: restaurant.long},
+function displayRestaurantsMap(element) {
+    let restaurant = element;
+    let foodMarker = new google.maps.Marker({
+      position: restaurant.geometry.location,
       map: map,
       icon: image,
     });
+
     markers.push(foodMarker);
-    getRatings(restaurant);
-    getComments(restaurant);
+    getAverageRating(restaurant);
+    getCommentsList(restaurant);
     createInfosWindows(restaurant);
-    addMarkerListeners(foodMarker, contentString);
-  }
+
+    foodMarker.info = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    //display restaurant informations when marker clicked
+    google.maps.event.addListener(foodMarker, 'click', function () {
+      this.info.open(map, this);
+    });
+
 }
 
 function createInfosWindows(restaurant) {
-  contentString = '<div class="infosMap">' + '<h3>' + restaurant.restaurantName + '</h3>' + '<p>' + 'Moyenne des avis: ' + averageRatings + '<i class="fas fa-star"></i>' + '</p>';
+  contentString = '<div class="infosMap">' + '<h3>' + restaurant.name + '</h3>' + '<p>' + '<span>' +'Moyenne des avis: ' + '</span>' + averageRatings + '<i class="fas fa-star"></i>'
+  + '</p>' + '<p>' + '<span>' +'Adresse: ' + '</span>' + restaurant.formatted_address +
+  '</p>' + '<p>' + '<span>' +'Numéro de téléphone: ' + '</span>' + restaurant.formatted_phone_number + '</p>';
+
    // '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x150&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76'+
    // '&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
+
 }
 
-function addMarkerListeners(marker, content) {
-  marker.info = new google.maps.InfoWindow({
-    content: content,
-  });
-  //display restaurant informations when marker clicked
-  google.maps.event.addListener(marker, 'click', function () {
-    this.info.open(map, this);
-  });
-}
 
 function placeMarker(location) {
   newMarker = new google.maps.Marker({

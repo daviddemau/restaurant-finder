@@ -1,81 +1,81 @@
 var restaurants_list = [
    {
-      "restaurantName":"Les Pizzas d'Emilie",
-      "address":"39 Rue des Petites Écuries, 75010 Paris",
-      "lat":44.8443909,
-      "long":-0.6099705999999999,
-      "ratings":[
+      "name":"Les Pizzas d'Emilie",
+      "formatted_address":"39 Rue des Petites Écuries, 75010 Paris",
+      "formatted_phone_number":"0556783562",
+      "geometry":{"location":{"lat":44.8443909, "lng":""-0.6099705999999999}},
+      "reviews":[
          {
-            "stars":4,
-            "comment":"Un excellent restwaurant, j'y reviendrai ! Par contre il vaut mieux aimer les pizzas non-vegans."
+            "rating":4,
+            "text":"Un excellent restwaurant, j'y reviendrai ! Par contre il vaut mieux aimer les pizzas non-vegans."
          },
          {
-            "stars":3,
-            "comment":"Tout simplement les meilleures pizzas de Bordeaux !"
+            "rating":3,
+            "text":"Tout simplement les meilleures pizzas de Bordeaux !"
          }
       ]
    },
    {
-      "restaurantName":"Les crêpes de Jean Michel",
-      "address":"4 Rue Lamarck, 75018 Paris",
-      "lat":44.8423909,
-      "long":-0.6099705999999999,
-      "ratings":[
+      "name":"Les crêpes de Jean Michel",
+      "formatted_address":"4 Rue Lamarck, 75018 Paris",
+      "formatted_phone_number":"0556283552",
+      "geometry":{"location":{"lat":44.8493909, "lng":-0.6029705999999999}},
+      "reviews":[
          {
-            "stars":1,
-            "comment":"Une minuscule crêperie avec une propeté discutable !"
+            "rating":1,
+            "text":"Une minuscule crêperie avec une propeté discutable !"
          },
          {
-            "stars":3,
-            "comment":"J'ai trouvé ça correct, sans plus"
+            "rating":3,
+            "text":"J'ai trouvé ça correct, sans plus"
          }
       ]
    },
    {
-      "restaurantName":"Thai's Noodles",
-      "address":"39 Rue des Petites Écuries, 75010 Paris",
-      "lat":44.8493909,
-      "long":-0.6019705999999999,
-      "ratings":[
+      "name":"Thai's Noodles",
+      "formatted_address":"39 Rue des Petites Écuries, 75010 Paris",
+      "formatted_phone_number":"0556323539",
+      "geometry":{"location":{"lat":44.8483909, "lng":-0.6019705999999999}},
+      "reviews":[
          {
-            "stars":5,
-            "comment":"On se croirait à Bangkok tellement les produits sont frais et bien cuisinés. Un plaisir."
+            "rating":5,
+            "text":"On se croirait à Bangkok tellement les produits sont frais et bien cuisinés. Un plaisir."
          },
          {
-            "stars":4,
-            "comment":"La Thailande dans votre assiete."
+            "rating":4,
+            "text":"La Thailande dans votre assiete."
          }
       ]
    },
    {
-      "restaurantName":"L'Amarylis",
-      "address":"4 Rue Lamarck, 75018 Paris",
-      "lat":44.8413909,
-      "long":-0.6089705999999999,
-      "ratings":[
+      "name":"L'Amarylis",
+      "formatted_address":"4 Rue Lamarck, 75018 Paris",
+      "formatted_phone_number":"0556765431",
+      "geometry":{"location":{"lat":44.8343909, "lng":-0.6199705999999999}},
+      "reviews":[
          {
-            "stars":4,
-            "comment":"Très bon service et excellent qualité des ingredients, j'y retournerais avec plaisir."
+            "rating":4,
+            "text":"Très bon service et excellent qualité des ingredients, j'y retournerais avec plaisir."
          },
          {
-            "stars":4,
-            "comment":"Les plats sont variés à raisonnables en terme de prix."
+            "rating":4,
+            "text":"Les plats sont variés à raisonnables en terme de prix."
          }
       ]
    },
    {
-      "restaurantName":"Brise De Mer",
-      "address":"4 Rue Lamarck, 75018 Paris",
-      "lat":44.8443909,
-      "long":-0.6029705999999999,
-      "ratings":[
+      "name":"Brise De Mer",
+      "formatted_address":"4 Rue Lamarck, 75018 Paris",
+      "formatted_phone_number":"0556728346",
+      "geometry":{"location":{"lat":44.8413909, "lng":-0.6059705999999999}},
+      "reviews":[
          {
-            "stars":5,
-            "comment":"Il faut gouter leurs gambas. Une merveille."
+            "rating":5,
+            "text":"Il faut gouter leurs gambas. Une merveille."
          },
          {
-            "stars":5,
-            "comment":"On ne se ruine pas dans un restaurant de fruits de mer excellent."
+            "rating":5,
+            "text":"On ne se ruine pas dans un restaurant de fruits de mer excellent."
          }
       ]
    }
