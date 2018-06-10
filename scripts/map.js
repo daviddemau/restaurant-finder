@@ -87,7 +87,7 @@ function callback(results, status) {
 
       function callback(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          getPositionPlacesData(place);
+          // getPositions(place);
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
         }
@@ -96,28 +96,32 @@ function callback(results, status) {
   }
 }
 
-function displayRestaurantsMap(element) {
-    let restaurant = element;
+function resetRestaurantMap() {
+  //empty foodmarkers from map
+
+  data.forEach((restaurant) => displayRestaurantsList(restaurant));
+}
+
+function displayRestaurantsMap(place) {
+    getAverageRating(place);
+    getCommentsList(place);
+  if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
+    getPositions(place);
     let foodMarker = new google.maps.Marker({
-      position: restaurant.geometry.location,
+      position: {lat: lat, lng: lng},
       map: map,
       icon: image,
     });
-
     markers.push(foodMarker);
-    getAverageRating(restaurant);
-    getCommentsList(restaurant);
-    createInfosWindows(restaurant);
-
+    createInfosWindows(place);
     foodMarker.info = new google.maps.InfoWindow({
       content: contentString
     });
-
     //display restaurant informations when marker clicked
     google.maps.event.addListener(foodMarker, 'click', function () {
       this.info.open(map, this);
     });
-
+  }
 }
 
 function createInfosWindows(restaurant) {
@@ -146,3 +150,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
   }
+
+//   function removeMarkers() {
+//     for(i = 0; i < markers.length; i++){
+//         markers[i].setMap(null);
+//     }
+//     markers = [];
+// }

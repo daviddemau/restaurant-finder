@@ -1,6 +1,7 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
-
+let googlePlacesData = [];
 let data = restaurants_list.slice();
+
 
 //variables
 let list = document.querySelector('.list');
@@ -39,20 +40,28 @@ newRestaurantSubmit.addEventListener('click', addNewRestaurant);
 closeInput.addEventListener('click', closeInputWindow);
 
 //filter restaurants between X and Y average rating values
-filterButton.addEventListener('click', displayRestaurantsList);
-
+filterButton.addEventListener('click', () => {
+  resetRestaurantList();
+  // resetRestaurantMap();
+});
 
 //functions
+function resetRestaurantList() {
+  list.innerHTML = '';
+  data.forEach((restaurant) => displayRestaurantsList(restaurant));
+  // addListeners();
+}
+
 function displayRestaurantsList(place) {
+  getPositions(place);
   getAverageRating(place);
   getCommentsList(place);
   //make sure rating for this restaurant is between filters values on top of the list
-  if(averageRatings >= filter1.value && averageRatings <= filter2.value || typeof averageRatings == 'string') {
+  if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
     //display elements on screen
     addRestaurantsRightColumn(place);
   }
-  //add click listeners
-  addListeners();
+  // addListeners ();
 }
 
 function addRestaurantsRightColumn(place) {
@@ -73,12 +82,12 @@ function getAverageRating(place) {
       totalGrade = allReviews.reduce((a, b) => {
           return a + b.rating;
       }, 0)
-      averageRatings = (totalGrade / allReviews.length).toFixed(1);;
+      averageRatings = (totalGrade / allReviews.length);
     } else {
-      averageRatings = allReviews[0].rating.toFixed(1);
+      averageRatings = allReviews[0].rating;
     }
   } else {
-    averageRatings = ' ';
+    averageRatings = '';
   }
 }
 
@@ -88,9 +97,8 @@ function getCommentsList(place) {
       if(e.text != '') {
         return '<p class="comment">' + e.rating + '  =>  ' + e.text + '</p>';
       } else {
-        return '';
+        return '<p class="comment">' + e.rating + '  =>  ' + '(Avis sans commentaire)' + '</p>';
       }
-      // commentsList.join('');
     })
   } else {
     commentsList = '<p class="comment">' + '=>  ' + 'Pas de commentaire disponible' + '</p>';
@@ -153,10 +161,17 @@ function addComment (e) {
   })
 }
 
-function addListeners () {
+function addListeners() {
   //show or hide restaurant comments on click
   restaurantNames = document.querySelectorAll('.name');
-  Array.from(restaurantNames).forEach(toggleShow);
+  array = Array.from(restaurantNames);
+
+
+for(var i = 0; i < array.length; i++) {
+  array[i].addEventListener('click', toggleShow(array[i]));
+}
+
+  // Array.from(restaurantNames).forEach(toggleShow);
 
   //show or hide add new comment input
   addCommentButtons = document.querySelectorAll('.commentButton');
@@ -178,21 +193,7 @@ function openInputWindow() {
   newRestaurantForm.style.display = 'block';
 }
 
-function getPositionDefaultData(element) {
-  lat = element.geometry.location.lat;
-  lng = element.geometry.location.lng;
-}
-
-function getPositionPlacesData(element) {
-  lat = element.geometry.location.lat();
-  lng = element.geometry.location.lng();
-}
-
-function resetRestaurantList() {
-  list.innerHTML = '';
-  data.forEach((restaurant) => {
-    //get latitude and longitude for google street view
-    getPositionDefaultData(restaurant);
-    displayRestaurantsList(restaurant);
-  });
+function getPositions(element) {
+  lng = element.geometry.viewport.b.b;
+  lat = element.geometry.viewport.f.f;
 }
