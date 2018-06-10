@@ -1,5 +1,4 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
-let lat, lng;
 
 let data = restaurants_list.slice();
 
@@ -22,47 +21,26 @@ let filterButton = document.querySelector('.submit');
 
 //new restaurant form elements
 let newRestaurantForm = document.querySelector('.newRestaurantForm');
-let newName = document.querySelector('.nameNewRestaurant');
-let newComment = document.querySelector('.commentNewRestaurant');
-let newRating = document.querySelector('.newRestaurantRating');
+let newName = document.querySelector('.newName');
+let newAdress = document.querySelector('.newAdress');
+let newPhone = document.querySelector('.newPhone');
+let newComment = document.querySelector('.newComment');
+let newRating = document.querySelector('.newRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
+let closeInput = document.querySelector('.fa-times');
 
 //call default restaurant list on screen (ratings between 1 and 5 by default)
-resetList();
-data.forEach((restaurant) => {
-  //get latitude and longitude for google street view
-  getPositionDefaultData(restaurant);
-  displayRestaurantsList(restaurant);
-});
+resetRestaurantList();
 
 //add a new restaurant when submit button is cliqued
-// newRestaurantSubmit.addEventListener('click', () => {
-//   //create a new restaurant object on click, add it to memory (session storage/array)
-//   newRestaurant = {
-//      "restaurantName": newName.value,
-//      "lat": newPosition.lat,
-//      "long": newPosition.long,
-//      "ratings":[
-//         {
-//            "stars": newRating.value,
-//            "comment": newComment.value,
-//         },
-//      ]
-//   };
-//   data.push(newRestaurant);
-//
-//   // //reset restaurant list on the right column
-//   displayRestaurantsList();
-//   //reset markers on the map
-//   displayRestaurantsMap();
-//   closeInputWindow();
-// })
+newRestaurantSubmit.addEventListener('click', addNewRestaurant);
 
-//close newInput when close icon clicked
-let closeInput = document.querySelector('.fa-times');
+//close add restaurant input on close tag
 closeInput.addEventListener('click', closeInputWindow);
-//filter the restaurants List
+
+//filter restaurants between X and Y average rating values
 filterButton.addEventListener('click', displayRestaurantsList);
+
 
 //functions
 function displayRestaurantsList(place) {
@@ -112,12 +90,39 @@ function getCommentsList(place) {
       } else {
         return '';
       }
+      // commentsList.join('');
     })
   } else {
     commentsList = '<p class="comment">' + '=>  ' + 'Pas de commentaire disponible' + '</p>';
   }
 }
 
+function addNewRestaurant() {
+  //create a new restaurant object on click, add it to memory (session storage/array)
+  newRestaurant = {
+     "name": newName.value,
+     "formatted_address": newAdress.value,
+     "formatted_phone_number": newPhone.value,
+     "geometry":{"location":{"lat":newPosition.lat, "lng":newPosition.long}},
+     "reviews":[
+        {
+           "rating": newRating.value,
+           "text": newComment.value
+        },
+     ]
+  };
+  data.push(newRestaurant);
+  data.forEach((restaurant) => {
+    //get latitude and longitude for google street view
+    getPositionDefaultData(restaurant);
+    displayRestaurantsList(restaurant);
+  });
+  // //reset restaurant list on the right column
+  displayRestaurantsList();
+  //reset markers on the map
+  displayRestaurantsMap();
+  closeInputWindow();
+}
 
 function toggleShow(element) {
   element.addEventListener('click', () => {
@@ -173,10 +178,6 @@ function openInputWindow() {
   newRestaurantForm.style.display = 'block';
 }
 
-function resetList() {
-  list.innerHTML = '';
-}
-
 function getPositionDefaultData(element) {
   lat = element.geometry.location.lat;
   lng = element.geometry.location.lng;
@@ -185,4 +186,13 @@ function getPositionDefaultData(element) {
 function getPositionPlacesData(element) {
   lat = element.geometry.location.lat();
   lng = element.geometry.location.lng();
+}
+
+function resetRestaurantList() {
+  list.innerHTML = '';
+  data.forEach((restaurant) => {
+    //get latitude and longitude for google street view
+    getPositionDefaultData(restaurant);
+    displayRestaurantsList(restaurant);
+  });
 }

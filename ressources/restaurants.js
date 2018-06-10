@@ -3,7 +3,7 @@ var restaurants_list = [
       "name":"Les Pizzas d'Emilie",
       "formatted_address":"39 Rue des Petites Écuries, 75010 Paris",
       "formatted_phone_number":"0556783562",
-      "geometry":{"location":{"lat":44.8443909, "lng":""-0.6099705999999999}},
+      "geometry":{"location":{"lat":44.8443909, "lng":-0.6099705999999999}},
       "reviews":[
          {
             "rating":4,
