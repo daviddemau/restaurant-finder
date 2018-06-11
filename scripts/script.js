@@ -57,11 +57,11 @@ function displayRestaurantsList(place) {
   getAverageRating(place);
   getCommentsList(place);
   //make sure rating for this restaurant is between filters values on top of the list
-  if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
+  if(averageRatings >= filter1.value && averageRatings <= filter2.value || averageRatings == '') {
     //display elements on screen
     addRestaurantsRightColumn(place);
   }
-  // addListeners ();
+  addListeners ();
 }
 
 function addRestaurantsRightColumn(place) {

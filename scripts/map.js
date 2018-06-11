@@ -90,6 +90,7 @@ function callback(results, status) {
           // getPositions(place);
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
+          console.log(place)
         }
       }
     }
@@ -105,7 +106,7 @@ function resetRestaurantMap() {
 function displayRestaurantsMap(place) {
     getAverageRating(place);
     getCommentsList(place);
-  if(averageRatings >= filter1.value && averageRatings <= filter2.value) {
+  if(averageRatings >= filter1.value && averageRatings <= filter2.value || averageRatings == '') {
     getPositions(place);
     let foodMarker = new google.maps.Marker({
       position: {lat: lat, lng: lng},
