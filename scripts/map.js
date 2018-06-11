@@ -90,7 +90,7 @@ function callback(results, status) {
           // getPositions(place);
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
-          console.log(place)
+          data.push(place);
         }
       }
     }

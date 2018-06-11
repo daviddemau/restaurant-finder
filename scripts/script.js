@@ -1,5 +1,4 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
-let googlePlacesData = [];
 let data = restaurants_list.slice();
 
 
@@ -49,7 +48,6 @@ filterButton.addEventListener('click', () => {
 function resetRestaurantList() {
   list.innerHTML = '';
   data.forEach((restaurant) => displayRestaurantsList(restaurant));
-  // addListeners();
 }
 
 function displayRestaurantsList(place) {
@@ -133,6 +131,7 @@ function addNewRestaurant() {
 }
 
 function toggleShow(element) {
+  // element.removeEventListener;
   element.addEventListener('click', () => {
     let rank = Array.from(restaurantNames).indexOf(element);
     if(element.nextSibling.style.display == '') {
@@ -151,6 +150,7 @@ function toggleShow(element) {
 
 
 function addComment (e) {
+  // e.removeEventListener;
   e.addEventListener('keypress', (event) => {
     var commentsList = e.parentElement.getElementsByClassName("comments")[0];
 
@@ -162,17 +162,13 @@ function addComment (e) {
 }
 
 function addListeners() {
-  //show or hide restaurant comments on click
+  //show or hide comments on click AND center map around corresponding restaurant
   restaurantNames = document.querySelectorAll('.name');
   array = Array.from(restaurantNames);
 
-
-for(var i = 0; i < array.length; i++) {
-  array[i].addEventListener('click', toggleShow(array[i]));
-}
-
-  // Array.from(restaurantNames).forEach(toggleShow);
-
+  for(var i = 0; i < array.length; i++) {
+   array[i].addEventListener('click', toggleShow(array[i]));
+  }
   //show or hide add new comment input
   addCommentButtons = document.querySelectorAll('.commentButton');
   Array.from(addCommentButtons).forEach(toggleShow);
