@@ -41,7 +41,7 @@ closeInput.addEventListener('click', closeInputWindow);
 //filter restaurants between X and Y average rating values
 filterButton.addEventListener('click', () => {
   resetRestaurantList();
-  // resetRestaurantMap();
+  resetRestaurantMap();
 });
 
 //functions

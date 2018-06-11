@@ -98,9 +98,8 @@ function callback(results, status) {
 }
 
 function resetRestaurantMap() {
-  //empty foodmarkers from map
-
-  data.forEach((restaurant) => displayRestaurantsList(restaurant));
+  removeMarkers();
+  data.forEach((restaurant) => displayRestaurantsMap(restaurant));
 }
 
 function displayRestaurantsMap(place) {
@@ -152,9 +151,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
   }
 
-//   function removeMarkers() {
-//     for(i = 0; i < markers.length; i++){
-//         markers[i].setMap(null);
-//     }
-//     markers = [];
-// }
+  function removeMarkers() {
+    for(i = 0; i < markers.length; i++){
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
