@@ -69,7 +69,11 @@ function addRestaurantsRightColumn(place) {
   '<h3>Les avis sur cette maison:</h3>' +
   '<div class="comments">' + commentsList + '</div>' +
   '<button class="commentButton">Ajouter un commentaire</button>' +
-  '<input class="commentInput" type="text" placeholder="votre commentaire ici"></input>';
+  '<div class="addCommentZone">' +
+  '<label>' + 'Note sur 5' + '</label>' +
+  '<select class="newRating"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>' +
+  '<input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required>' +
+  '</div>'
 }
 
 function getAverageRating(place) {
@@ -104,12 +108,19 @@ function getCommentsList(place) {
 }
 
 function addNewRestaurant() {
+  //create new food marker based on click event location
+  placeMarker(newPosition);
   //create a new restaurant object on click, add it to memory (session storage/array)
   newRestaurant = {
      "name": newName.value,
      "formatted_address": newAdress.value,
      "formatted_phone_number": newPhone.value,
-     "geometry":{"location":{"lat":newPosition.lat, "lng":newPosition.long}},
+     "geometry":{
+       "viewport":{
+         "b":{"b":newPosition.lng},
+         "f":{"f":newPosition.lat}
+       },
+     },
      "reviews":[
         {
            "rating": newRating.value,
@@ -117,46 +128,43 @@ function addNewRestaurant() {
         },
      ]
   };
+
   data.push(newRestaurant);
-  data.forEach((restaurant) => {
-    //get latitude and longitude for google street view
-    getPositionDefaultData(restaurant);
-    displayRestaurantsList(restaurant);
-  });
-  // //reset restaurant list on the right column
-  displayRestaurantsList();
-  //reset markers on the map
-  displayRestaurantsMap();
+  resetRestaurantList();
+  resetRestaurantMap();
   closeInputWindow();
 }
 
-function toggleShow(element) {
-  // element.removeEventListener;
+function centerMap(element) {
   element.addEventListener('click', () => {
     let rank = Array.from(restaurantNames).indexOf(element);
     if(element.nextSibling.style.display == '') {
       //center the map around corresponding restaurant marker and open its info window
-      map.panTo(markers[rank].position);
-      markers[rank].info.open(map,markers[rank]);
+      // map.panTo(markers[rank].position);
+      // markers[rank].info.open(map,markers[rank]);
       //show comments and add comment button
       element.nextSibling.style.display = 'block';
     } else {
-      markers[rank].info.close(map,markers[rank]);
-      map.panTo(myPosition);
+      // markers[rank].info.close(map,markers[rank]);
+      // map.panTo(myPosition);
       element.nextSibling.style.display = '';
     }
   })
 }
 
 
-function addComment (e) {
-  // e.removeEventListener;
-  e.addEventListener('keypress', (event) => {
-    var commentsList = e.parentElement.getElementsByClassName("comments")[0];
-
+function addComment (element) {
+  element.addEventListener('keypress', (event) => {
+    var commentsList = element.parentElement.getElementsByClassName("comments")[0];
     if(event.keyCode == 13) {
-      commentsList.innerHTML += '<p class="comment">' + '=>  ' + e.value + '</p>'
-      e.value = '';
+
+
+
+
+      // commentsList.innerHTML += '<p class="comment">' + '=>  ' + element.value + '</p>'
+      // element.value = '';
+
+
     }
   })
 }
@@ -167,7 +175,7 @@ function addListeners() {
   array = Array.from(restaurantNames);
 
   for(var i = 0; i < array.length; i++) {
-   array[i].addEventListener('click', toggleShow(array[i]));
+   array[i].addEventListener('click', centerMap(array[i]));
   }
   //show or hide add new comment input
   addCommentButtons = document.querySelectorAll('.commentButton');
@@ -192,4 +200,15 @@ function openInputWindow() {
 function getPositions(element) {
   lng = element.geometry.viewport.b.b;
   lat = element.geometry.viewport.f.f;
+}
+
+function toggleShow(element) {
+  element.addEventListener('click', () => {
+    if(element.nextSibling.style.display == '') {
+      element.nextSibling.style.display = 'block';
+    } else {
+      element.nextSibling.style.display = '';
+    }
+  })
+
 }

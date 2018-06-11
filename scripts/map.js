@@ -45,11 +45,15 @@ function initMap() {
       //click event on the map : add a new restaurant
       google.maps.event.addListener(map, 'click', function(event) {
         openInputWindow();
+
         newPosition = {
           "lat": event.latLng.lat(),
-          "long": event.latLng.lng(),
+          "lng": event.latLng.lng(),
         }
       });
+
+
+
 
       //Places API method. find nearBy restaurants (get restaurant IDs)
       var request = {
@@ -135,13 +139,6 @@ function createInfosWindows(restaurant) {
 }
 
 
-function placeMarker(location) {
-  newMarker = new google.maps.Marker({
-    position: location,
-    map: map,
-    icon: image
-  });
-}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
@@ -156,4 +153,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         markers[i].setMap(null);
     }
     markers = [];
+}
+
+function placeMarker(location) {
+  foodMarker = new google.maps.Marker({
+    position: {lat: location.lat, lng:location.lng},
+    map: map,
+    icon: image
+  });
 }

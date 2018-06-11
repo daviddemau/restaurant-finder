@@ -95,10 +95,14 @@ ul {
   color: white;
 }
 
-.review input {
+.addCommentZone {
   display: none;
   margin-top: 10px;
   width: 300px;
+}
+
+.review label {
+  margin-right: 30px;
 }
 
 /* styles on map */
@@ -175,6 +179,11 @@ h3  {
 
 .newRestaurantSubmit:hover {
     background-color: #45a049;
+}
+
+form select {
+  float: right;
+  width: 100px;
 }
 
 /* closing tag on input field */

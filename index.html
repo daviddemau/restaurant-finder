@@ -41,13 +41,13 @@
 
   <form class="newRestaurantForm">
     <label>Nom du restaurant</label><i class="fa fa-times"></i>
-    <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant..">
-    <label>Adresse</label><i class="fa fa-times"></i>
-    <input class="newRestaurantInput newAdress" type="text" placeholder="adresse..">
-    <label>Téléphone</label><i class="fa fa-times"></i>
-    <input class="newRestaurantInput newPhone" type="text" placeholder="téléphone..">
+    <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant.." required>
+    <label>Adresse</label>
+    <input class="newRestaurantInput newAdress" type="text" placeholder="adresse.." required>
+    <label>Téléphone</label>
+    <input class="newRestaurantInput newPhone" type="text" placeholder="téléphone.." required>
     <label>Votre avis</label>
-    <input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire..">
+    <input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required>
     <label for="country">Note sur 5</label>
     <select class="newRating">
       <option value="1">1</option>
@@ -56,7 +56,7 @@
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <button class="newRestaurantSubmit" type="button">Ajouter le restaurant</button>
+    <button type="submit" class="newRestaurantSubmit" type="button">Ajouter le restaurant</button>
   </form>
 
   <script src="ressources/restaurants.js" charset="utf-8"></script>
