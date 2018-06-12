@@ -6,6 +6,7 @@ let list = document.querySelector('.list');
 let averageRatings;
 let commentsList;
 let closingTag = document.querySelector('.fa-times');
+let openingStatus;
 
 //elements that will receive click listeners
 let restaurantNames = document.querySelectorAll('.name');
@@ -64,7 +65,7 @@ function displayRestaurantsList(place) {
 function addRestaurantsRightColumn(place) {
   list.innerHTML += '<li class="name">' + '<span>' + place.name + '</span>' + '<span class="stars">' + averageRatings + '</span>' +
   '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' +
-  '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' +
+  '<img src="https://maps.googleapis.com/maps/api/streetview?size=220x100&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' +
   '<h3>Les avis sur cette maison:</h3>' +
   '<div class="comments">' + commentsList + '</div>' +
   '<button class="commentButton">Ajouter un commentaire</button>' +
@@ -83,9 +84,9 @@ function getAverageRating(place) {
       totalGrade = allReviews.reduce((a, b) => {
           return a + b.rating;
       }, 0)
-      averageRatings = (totalGrade / allReviews.length);
+      averageRatings = (totalGrade / allReviews.length).toFixed(1);
     } else {
-      averageRatings = allReviews[0].rating;
+      averageRatings = allReviews[0].rating.toFixed(1);
     }
   } else {
     averageRatings = '';
@@ -96,13 +97,16 @@ function getCommentsList(place) {
   if(place.reviews != undefined) {
     commentsList = place.reviews.map((e) => {
       if(e.text != '') {
-        return '<p class="comment">' + e.rating + '  =>  ' + e.text + '</p>';
+        return '<p class="comment">' + e.rating + '<i class="fas fa-star"></i>' + '  :  ' + e.text + '</p>';
       } else {
-        return '<p class="comment">' + e.rating + '  =>  ' + '(Avis sans commentaire)' + '</p>';
+        return '';
       }
     })
   } else {
-    commentsList = '<p class="comment">' + '=>  ' + 'Pas de commentaire disponible' + '</p>';
+    commentsList = '';
+  }
+  if(Array.isArray(commentsList)) {
+    commentsList = commentsList.join('');
   }
 }
 
@@ -196,6 +200,17 @@ function toggleShow(element) {
   })
 }
 
+function checkOpeningStatus(place) {
+  if ('opening_hours' in place) {
+    if(place.opening_hours.open_now) {
+      openingStatus = 'OUVERT';
+      // openingStatus.style.color = "#4bba50";
+    } else {
+      openingStatus = 'FERME';
+      // openingStatus.style.color = "red";
+    }
+  }
+}
 
 
 

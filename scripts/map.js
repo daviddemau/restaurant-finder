@@ -95,6 +95,7 @@ function callback(results, status) {
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
           data.push(place);
+          console.log(place);
         }
       }
     }
@@ -129,9 +130,22 @@ function displayRestaurantsMap(place) {
 }
 
 function createInfosWindows(restaurant) {
-  contentString = '<div class="infosMap">' + '<h3>' + restaurant.name + '</h3>' + '<p>' + '<span>' +'Moyenne des avis: ' + '</span>' + averageRatings + '<i class="fas fa-star"></i>'
+ checkOpeningStatus(restaurant);
+  contentString = '<div class="infosMap">' + '<h3>' + restaurant.name + '</h3>' +
+ '<img class="map-image" src="https://maps.googleapis.com/maps/api/streetview?size=220x100&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>'
+  + '<p>' + '<span>' +'Moyenne des avis: ' + '</span>' + averageRatings + '<i class="fas fa-star"></i>'
   + '</p>' + '<p>' + '<span>' +'Adresse: ' + '</span>' + restaurant.formatted_address +
-  '</p>' + '<p>' + '<span>' +'Numéro de téléphone: ' + '</span>' + restaurant.formatted_phone_number + '</p>';
+  '</p>';
+
+  if(restaurant.formatted_phone_number != undefined) {
+    contentString += '<p>' + '<span>' +'Numéro de téléphone: ' + '</span>' + restaurant.formatted_phone_number + '</p>';
+  }
+
+  if(openingStatus != undefined) {
+    contentString += '<p>' + '<span>' +'Status actuel: ' + '</span>' + openingStatus + '</p>';
+  }
+
+
 
    // '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x150&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76'+
    // '&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';

@@ -40,6 +40,40 @@ h2 {
   float: left;
 }
 
+h3  {
+  color: #4bba50;
+  font-weight: bold;
+}
+
+.map-image {
+  margin-bottom: 20px;
+  width: 90%;
+}
+/* .infosMap {
+  text-align: center;
+} */
+
+.infosMap span {
+  margin-right: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.infosMap p {
+  margin-top: -5px;
+  font-size: 10px;
+}
+
+.infosMap i {
+  margin-left: 5px;
+  float: none;
+}
+
+.mapReview {
+  color: #4bba50;
+  font-weight: bold;
+}
+
 /* -------------------------------------------------- */
 /* ICONS */
 /* -------------------------------------------------- */
@@ -49,9 +83,17 @@ h2 {
   float: none;
 }
 
+.name i {
+  /* margin-left: 20px; */
+}
+
 .fas {
   float: right;
   color: rgb(201, 209, 27);
+}
+
+.fa-star {
+  margin-left: 2px;
 }
 
 .fa-times {
@@ -65,8 +107,9 @@ h2 {
 .commentButton {
   background-color: #4bba50;
   color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
+  padding: 4px 10px;
+  margin-top: 8px;
+  margin-bottom: 4px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -75,7 +118,6 @@ h2 {
 /* -------------------------------------------------- */
 /* RESTAURANTS LIST SECTION */
 /* -------------------------------------------------- */
-
 
 .reviews {
   width: 40%;
@@ -126,9 +168,8 @@ ul {
 }
 
 .comment {
-  font-size: 12px;
+  font-size: 10px;
 }
-
 
 .name:hover {
   background: grey;
@@ -145,40 +186,10 @@ ul {
   margin-right: 30px;
 }
 
-/* styles on map */
 
-h3  {
-  color: #4bba50;
-  font-weight: bold;
-}
-
-/* .infosMap {
-  text-align: center;
-} */
-
-.infosMap span {
-  margin-right: 5px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-.infosMap p {
-  margin-top: -5px;
-  font-size: 10px;
-}
-
-.infosMap i {
-  margin-left: 5px;
-  float: none;
-}
-
-.mapReview {
-  color: #4bba50;
-  font-weight: bold;
-}
-
-
-/* input form to add a new restaurant */
+/* -------------------------------------------------- */
+/* ADD NEW RESTAURANT INPUT */
+/* -------------------------------------------------- */
 
 .newRestaurantForm {
   display: none;
@@ -217,8 +228,6 @@ form select {
   float: right;
   width: 100px;
 }
-
-/* closing tag on input field */
 
 .fa-times:before {
 right: 32px;
