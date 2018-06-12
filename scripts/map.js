@@ -138,8 +138,6 @@ function createInfosWindows(restaurant) {
 
 }
 
-
-
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?

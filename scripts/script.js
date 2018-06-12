@@ -1,7 +1,6 @@
 // clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
 let data = restaurants_list.slice();
 
-
 //variables
 let list = document.querySelector('.list');
 let averageRatings;
@@ -63,7 +62,7 @@ function displayRestaurantsList(place) {
 }
 
 function addRestaurantsRightColumn(place) {
-  list.innerHTML += '<li class="name">' + place.name + '<span class="stars">' + averageRatings + '</span>' +
+  list.innerHTML += '<li class="name">' + '<span>' + place.name + '</span>' + '<span class="stars">' + averageRatings + '</span>' +
   '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' +
   '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' +
   '<h3>Les avis sur cette maison:</h3>' +
@@ -140,34 +139,19 @@ function centerMap(element) {
     let rank = Array.from(restaurantNames).indexOf(element);
     if(element.nextSibling.style.display == '') {
       //center the map around corresponding restaurant marker and open its info window
-      // map.panTo(markers[rank].position);
-      // markers[rank].info.open(map,markers[rank]);
+      map.panTo(markers[rank].position);
+      markers[rank].info.open(map,markers[rank]);
       //show comments and add comment button
       element.nextSibling.style.display = 'block';
     } else {
-      // markers[rank].info.close(map,markers[rank]);
-      // map.panTo(myPosition);
+      markers[rank].info.close(map,markers[rank]);
+      map.panTo(myPosition);
       element.nextSibling.style.display = '';
     }
   })
 }
 
 
-function addComment (element) {
-  element.addEventListener('keypress', (event) => {
-    var commentsList = element.parentElement.getElementsByClassName("comments")[0];
-    if(event.keyCode == 13) {
-
-
-
-
-      // commentsList.innerHTML += '<p class="comment">' + '=>  ' + element.value + '</p>'
-      // element.value = '';
-
-
-    }
-  })
-}
 
 function addListeners() {
   //show or hide comments on click AND center map around corresponding restaurant
@@ -182,8 +166,8 @@ function addListeners() {
   Array.from(addCommentButtons).forEach(toggleShow);
 
   //add comment from input
-  commentInput = document.querySelectorAll('.commentInput');
-  Array.from(commentInput).forEach(addComment);
+  // commentInput = document.querySelectorAll('.newComment');
+  // Array.from(commentInput).forEach(addComment);
 }
 
 function closeInputWindow() {
@@ -210,5 +194,39 @@ function toggleShow(element) {
       element.nextSibling.style.display = '';
     }
   })
-
 }
+
+
+
+
+// function addComment (element) {
+//   element.addEventListener('keypress', (event) => {
+//
+//     if(event.keyCode == 13) {
+//       let commentsList = element.closest("li").querySelector('.comments');
+//       let parentDiv = element.closest("li").previousSibling;
+//       let placeName = parentDiv.querySelector('span').innerHTML;
+//       let commentRating = element.previousSibling;
+//
+//       let newCommentObject = {
+//            "rating": Number(commentRating.value),
+//            "text": element.value
+//         },
+//
+//     //get restaurant name, then add new comment inside this restaurant object. finally reset lists
+//      targetedRestaurant = data.find((restaurant) => {
+//        return restaurant.name = placeName;
+//      });
+//      targetedRestaurant.reviews.push(newCommentObject);
+//
+//
+//      //add new comment on screen
+//     commentsList.innerHTML += '<p class="comment">' + '=>  ' + element.value + '</p>'
+//     element.value = '';
+//     element.closest("div").style.display = '';
+//     //reset data
+//     resetRestaurantList();
+//     resetRestaurantMap();
+//     }
+//   })
+// }

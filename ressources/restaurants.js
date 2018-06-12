@@ -22,7 +22,7 @@ var restaurants_list = [
    },
    {
       "name":"Thai's Noodles",
-      "formatted_address":"39 Rue des Petites Écuries, 75010 Paris",
+      "formatted_address":"76 avenue des prairies  bleues, 75010 Marco en Bareuils",
       "formatted_phone_number":"0556323539",
       "geometry":{
         "viewport":{
@@ -66,7 +66,7 @@ var restaurants_list = [
    },
    {
       "name":"Brise De Mer",
-      "formatted_address":"4 Rue Lamarck, 75018 Paris",
+      "formatted_address":"34 rue des quais verts, 72098 Montagne",
       "formatted_phone_number":"0556728346",
       "geometry":{
         "viewport":{
