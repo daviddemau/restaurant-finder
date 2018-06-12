@@ -1,25 +1,21 @@
-// clone data array to new none -- store this new array on session storage object -- when any changes : comment, new restaurant => cloned array get all changes, then we call the "classic" display functions (on the right column and on the map)
+//clone restaurants_list array
 let data = restaurants_list.slice();
 
 //variables
-let list = document.querySelector('.list');
-let averageRatings;
-let commentsList;
-let closingTag = document.querySelector('.fa-times');
 let openingStatus;
-
-//elements that will receive click listeners
+let list = document.querySelector('.list');
 let restaurantNames = document.querySelectorAll('.name');
+
+// add comments elements
 let addCommentButtons = document.querySelectorAll('.commentButton');
 let commentInput = document.querySelectorAll('.commentInput');
-
 
 //filter elements (choose between X and Y stars)
 let filter1 = document.querySelector('.filter1');
 let filter2 = document.querySelector('.filter2');
 let filterButton = document.querySelector('.submit');
 
-//new restaurant form elements
+//form that appears to create a new restaurant
 let newRestaurantForm = document.querySelector('.newRestaurantForm');
 let newName = document.querySelector('.newName');
 let newAdress = document.querySelector('.newAdress');
@@ -29,20 +25,22 @@ let newRating = document.querySelector('.newRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 let closeInput = document.querySelector('.fa-times');
 
-//call default restaurant list on screen (ratings between 1 and 5 by default)
+
+//call default restaurant list on screen
 resetRestaurantList();
 
 //add a new restaurant when submit button is cliqued
 newRestaurantSubmit.addEventListener('click', addNewRestaurant);
-
-//close add restaurant input on close tag
-closeInput.addEventListener('click', closeInputWindow);
 
 //filter restaurants between X and Y average rating values
 filterButton.addEventListener('click', () => {
   resetRestaurantList();
   resetRestaurantMap();
 });
+
+//close new restaurant form on close tag
+closeInput.addEventListener('click', closeInputWindow);
+
 
 //functions
 function resetRestaurantList() {
@@ -51,6 +49,7 @@ function resetRestaurantList() {
 }
 
 function displayRestaurantsList(place) {
+  //get all informations about the specific restaurant
   getPositions(place);
   getAverageRating(place);
   getCommentsList(place);
@@ -59,7 +58,7 @@ function displayRestaurantsList(place) {
     //display elements on screen
     addRestaurantsRightColumn(place);
   }
-  addListeners ();
+  addListeners();
 }
 
 function addRestaurantsRightColumn(place) {
@@ -126,12 +125,11 @@ function addNewRestaurant() {
      },
      "reviews":[
         {
-           "rating": newRating.value,
+           "rating": Number(newRating.value),
            "text": newComment.value
         },
      ]
   };
-
   data.push(newRestaurant);
   resetRestaurantList();
   resetRestaurantMap();
@@ -155,8 +153,6 @@ function centerMap(element) {
   })
 }
 
-
-
 function addListeners() {
   //show or hide comments on click AND center map around corresponding restaurant
   restaurantNames = document.querySelectorAll('.name');
@@ -169,20 +165,9 @@ function addListeners() {
   addCommentButtons = document.querySelectorAll('.commentButton');
   Array.from(addCommentButtons).forEach(toggleShow);
 
-  //add comment from input
+  //add new comment
   // commentInput = document.querySelectorAll('.newComment');
   // Array.from(commentInput).forEach(addComment);
-}
-
-function closeInputWindow() {
-  document.querySelector('.main').style.filter = 'none';
-  newRestaurantForm.style.display = 'none';
-  newRestaurantForm.reset();
-}
-
-function openInputWindow() {
-  document.querySelector('.main').style.filter = 'blur(10px)';
-  newRestaurantForm.style.display = 'block';
 }
 
 function getPositions(element) {
@@ -200,19 +185,23 @@ function toggleShow(element) {
   })
 }
 
-function checkOpeningStatus(place) {
-  if ('opening_hours' in place) {
-    if(place.opening_hours.open_now) {
-      openingStatus = 'OUVERT';
-      // openingStatus.style.color = "#4bba50";
-    } else {
-      openingStatus = 'FERME';
-      // openingStatus.style.color = "red";
-    }
-  }
+function closeInputWindow() {
+  document.querySelector('.main').style.filter = 'none';
+  newRestaurantForm.style.display = 'none';
+  newRestaurantForm.reset();
+}
+
+function openInputWindow() {
+  document.querySelector('.main').style.filter = 'blur(10px)';
+  newRestaurantForm.style.display = 'block';
 }
 
 
+
+
+
+
+// add new comment function (still building)
 
 // function addComment (element) {
 //   element.addEventListener('keypress', (event) => {

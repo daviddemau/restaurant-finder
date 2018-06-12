@@ -14,6 +14,7 @@
     <div class="reviews">
       <h2>Liste des restaurants près de chez vous:</h2>
       <div class="filterText">
+  <!-- filter restaurant list based on individual ratings -->
         <span>Avis entre</span>
         <select class="filter1">
           <option value="1.0">1</option>
@@ -33,12 +34,13 @@
         <span><i class="fas fa-star"></i></span>
         <input type="submit" class="submit" value="Rechercher">
       </div>
+<!-- restaurant list right column -->
       <ul class="list"></ul>
     </div>
     <div class="newPlaceInfos">
     </div>
   </div>
-
+<!-- div that appears to add a new restaurant -->
   <form class="newRestaurantForm">
     <label>Nom du restaurant</label><i class="fa fa-times"></i>
     <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant.." required>
@@ -56,8 +58,9 @@
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <button type="submit" class="newRestaurantSubmit" type="button">Ajouter le restaurant</button>
+    <button class="newRestaurantSubmit" type="button">Ajouter le restaurant</button>
   </form>
+
   <script src="ressources/restaurants.js" charset="utf-8"></script>
   <script type="text/javascript" src="scripts/script.js"></script>
   <script type="text/javascript" src="scripts/map.js"></script>

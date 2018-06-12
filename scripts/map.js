@@ -1,7 +1,6 @@
-let map, myPosition, infoWindow, image, contentString, newPosition, service;
-
 let markers = [];
 
+//inititate google Maps and google Places
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
     center: {lat: 48.8566, lng: 2.3522},
@@ -20,7 +19,7 @@ function initMap() {
       map.setCenter(myPosition);
 
       //marker displaying user location
-      var marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: myPosition,
         map: map,
       });
@@ -41,24 +40,19 @@ function initMap() {
         displayRestaurantsMap(element);
       });
 
-
       //click event on the map : add a new restaurant
       google.maps.event.addListener(map, 'click', function(event) {
         openInputWindow();
-
         newPosition = {
           "lat": event.latLng.lat(),
           "lng": event.latLng.lng(),
         }
       });
 
-
-
-
-      //Places API method. find nearBy restaurants (get restaurant IDs)
-      var request = {
+      //Places API method: find nearBy restaurants (via restaurant IDs)
+      let request = {
         location: myPosition,
-        radius: '800',
+        radius: '1000',
         type: ['restaurant']
       };
 
@@ -75,17 +69,16 @@ function initMap() {
 }
 
 
-
-//functions
+//callback from places
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      var place = results[i];
+      let place = results[i];
 
-      var request = {
+      let request = {
         placeId: results[i]['place_id']
       }
-      //Places API method. to get detailed data (including reviews)
+      //Places API method: get more detailed data (including reviews)
       service = new google.maps.places.PlacesService(map);
       service.getDetails(request, callback);
 
@@ -95,7 +88,6 @@ function callback(results, status) {
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
           data.push(place);
-          console.log(place);
         }
       }
     }
@@ -142,14 +134,8 @@ function createInfosWindows(restaurant) {
   }
 
   if(openingStatus != undefined) {
-    contentString += '<p>' + '<span>' +'Status actuel: ' + '</span>' + openingStatus + '</p>';
+    contentString += '<p>' + '<span>' +'Status actuel: ' + '</span>' + '<span class=' + '"' + openingStatus + '"' + '>' + openingStatus + '</span>' + '</p>';
   }
-
-
-
-   // '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x150&location='+restaurant.lat+','+restaurant.long+'&heading=151.78&pitch=-0.76'+
-   // '&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>';
-
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -174,3 +160,19 @@ function placeMarker(location) {
     icon: image
   });
 }
+
+function checkOpeningStatus(place) {
+  if ('opening_hours' in place) {
+    if(place.opening_hours.open_now) {
+      openingStatus = 'OUVERT';
+      // openingStatus.style.color = "#4bba50";
+    } else {
+      openingStatus = 'FERME';
+      // openingStatus.style.color = "red";
+    }
+  }
+}
+
+
+
+// let map, myPosition, infoWindow, image, contentString, newPosition, service;

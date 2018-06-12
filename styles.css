@@ -45,6 +45,14 @@ h3  {
   font-weight: bold;
 }
 
+.FERME {
+  color: red;
+}
+
+.OUVERT {
+  color: #4bba50;
+}
+
 .map-image {
   margin-bottom: 20px;
   width: 90%;
@@ -152,6 +160,7 @@ ul {
   list-style: none;
   padding: 10px;
   padding-left: 20px;
+  padding-right: 20px;
   justify-content: space-around;
   box-shadow: 2px 0 10px rgba(0,0,0,.2);
   transition: all 0.2s;
