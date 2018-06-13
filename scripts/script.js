@@ -1,5 +1,5 @@
-//clone restaurants_list array
-let data = restaurants_list.slice();
+//array that stores all restaurants objects
+let data = [];
 
 //variables
 let openingStatus;
@@ -24,10 +24,6 @@ let newComment = document.querySelector('.newComment');
 let newRating = document.querySelector('.newRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 let closeInput = document.querySelector('.fa-times');
-
-
-//call default restaurant list on screen
-resetRestaurantList();
 
 //add a new restaurant when submit button is cliqued
 newRestaurantSubmit.addEventListener('click', addNewRestaurant);
@@ -66,12 +62,14 @@ function addRestaurantsRightColumn(place) {
   '<i class="fas fa-star"></i>'+ '</li>' + '<li class="review">' +
   '<img src="https://maps.googleapis.com/maps/api/streetview?size=220x100&location='+lat+','+lng+'&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>' +
   '<h3>Les avis sur cette maison:</h3>' +
-  '<div class="comments">' + commentsList + '</div>' +
+  '<ul class="comments-list" data-restaurant-id=' + '"' + place.place_id
+ + '"' + '>' + commentsList + '</ul>' +
   '<button class="commentButton">Ajouter un commentaire</button>' +
   '<div class="addCommentZone">' +
   '<label>' + 'Note sur 5' + '</label>' +
   '<select class="newRating"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>' +
-  '<input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required>' +
+  '<input class="newRestaurantInput newComment" data-restaurant-id=' + '"' + place.place_id
+ + '"' + 'type="text" placeholder="votre commentaire.." required>' +
   '</div>'
 }
 
@@ -96,7 +94,7 @@ function getCommentsList(place) {
   if(place.reviews != undefined) {
     commentsList = place.reviews.map((e) => {
       if(e.text != '') {
-        return '<p class="comment">' + e.rating + '<i class="fas fa-star"></i>' + '  :  ' + e.text + '</p>';
+        return '<li class="comment">' + e.rating + '<i class="fas fa-star"></i>' + '  :  ' + e.text + '</li>';
       } else {
         return '';
       }
@@ -203,34 +201,35 @@ function openInputWindow() {
 
 // add new comment function (still building)
 
-// function addComment (element) {
-//   element.addEventListener('keypress', (event) => {
-//
-//     if(event.keyCode == 13) {
-//       let commentsList = element.closest("li").querySelector('.comments');
-//       let parentDiv = element.closest("li").previousSibling;
-//       let placeName = parentDiv.querySelector('span').innerHTML;
-//       let commentRating = element.previousSibling;
-//
-//       let newCommentObject = {
-//            "rating": Number(commentRating.value),
-//            "text": element.value
-//         },
-//
-//     //get restaurant name, then add new comment inside this restaurant object. finally reset lists
-//      targetedRestaurant = data.find((restaurant) => {
-//        return restaurant.name = placeName;
-//      });
-//      targetedRestaurant.reviews.push(newCommentObject);
-//
-//
-//      //add new comment on screen
-//     commentsList.innerHTML += '<p class="comment">' + '=>  ' + element.value + '</p>'
-//     element.value = '';
-//     element.closest("div").style.display = '';
-//     //reset data
-//     resetRestaurantList();
-//     resetRestaurantMap();
-//     }
-//   })
-// }
+function addComment (element) {
+  element.addEventListener('keypress', (event) => {
+    if(event.keyCode == 13) {
+
+
+      let commentsList = element.closest("li").querySelector('.comments');
+      let parentDiv = element.closest("li").previousSibling;
+      let placeName = parentDiv.querySelector('span').innerHTML;
+      let commentRating = element.previousSibling;
+
+      let newCommentObject = {
+           "rating": Number(commentRating.value),
+           "text": element.value
+        },
+
+    //get restaurant name, then add new comment inside this restaurant object. finally reset lists
+     targetedRestaurant = data.find((restaurant) => {
+       return restaurant.name = placeName;
+     });
+     targetedRestaurant.reviews.push(newCommentObject);
+
+
+     //add new comment on screen
+    commentsList.innerHTML += '<p class="comment">' + '=>  ' + element.value + '</p>'
+    element.value = '';
+    element.closest("div").style.display = '';
+    //reset data
+    resetRestaurantList();
+    resetRestaurantMap();
+    }
+  })
+}

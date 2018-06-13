@@ -88,6 +88,7 @@ function callback(results, status) {
           displayRestaurantsMap(place);
           displayRestaurantsList(place);
           data.push(place);
+          console.log(place)
         }
       }
     }

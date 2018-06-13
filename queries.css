@@ -1,0 +1,26 @@
+/* laptops */
+@media only screen and (max-width: 1300px) {
+
+}
+/* big tablets */
+@media only screen and (max-width: 1200px) {
+
+}
+/* tablets */
+@media only screen and (max-width: 1023px) {
+
+}
+/* larger phones */
+@media only screen and (max-width: 767px) {
+  /* .reviews {
+    display: block;
+    color: red;
+  }
+
+  .map {
+    width: 60%;
+    height: 100%;
+    display: block;
+    float: right;
+  } */
+}
