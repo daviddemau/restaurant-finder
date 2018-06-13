@@ -13,18 +13,11 @@ html, body {
 /* -------------------------------------------------- */
 /* REUSABLE COMPONENTS */
 /* -------------------------------------------------- */
-
-h1 {
-  font-size: 40px;
-  margin-bottom: 120px;
-  text-align: center;
-  color: #4bba50;
-}
 h2 {
-  text-align: center;
-  font-size: 15px;
   color: #4bba50;
+  margin-left: 30px;
 }
+
 .main {
   height: 100%;
   overflow: hidden;
@@ -136,10 +129,10 @@ h3  {
 }
 
 .filterText {
-  margin-bottom: 20px;
-  text-align: center;
+  margin-bottom: 40px;
   color: #4bba50;
   font-size: 14px;
+  margin-left: 30px;
 }
 .filterText span {
   margin-right: 10px;
@@ -155,14 +148,14 @@ h3  {
   padding: 0px;
   margin: 0px;
   text-align: left;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 20px;
 }
 
 .name {
   background: white;
   list-style: none;
-  padding: 15px;
+  padding: 16px;
   padding-left: 20px;
   padding-right: 20px;
   justify-content: space-around;
@@ -192,7 +185,7 @@ h3  {
 
 
 .name:hover {
-  background: grey;
+  background: #4bba50;
   color: white;
 }
 
