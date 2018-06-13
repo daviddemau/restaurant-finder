@@ -1,5 +1,6 @@
 //array that stores all restaurants objects
 let data = [];
+let newPlacesIds = [];
 
 //variables
 let openingStatus;
@@ -25,8 +26,6 @@ let newRating = document.querySelector('.newRating');
 let newRestaurantSubmit = document.querySelector('.newRestaurantSubmit');
 let closeInput = document.querySelector('.fa-times');
 
-//add a new restaurant when submit button is cliqued
-newRestaurantSubmit.addEventListener('click', addNewRestaurant);
 
 //filter restaurants between X and Y average rating values
 filterButton.addEventListener('click', () => {
@@ -158,15 +157,17 @@ function toggleShow(element) {
 function closeInputWindow() {
   document.querySelector('.main').style.filter = 'none';
   newRestaurantForm.style.display = 'none';
-  newRestaurantForm.reset();
 }
 
 function openInputWindow() {
+  newRestaurantForm.reset();
   document.querySelector('.main').style.filter = 'blur(10px)';
   newRestaurantForm.style.display = 'block';
 }
 
 function addNewRestaurant() {
+  //generate unique restaurant id
+  let id = Math.random().toString(36).substr(2, 9);
   //create new food marker based on click event location
   placeMarker(newPosition);
   //create a new restaurant object on click, add it to memory (session storage/array)
@@ -174,6 +175,7 @@ function addNewRestaurant() {
     "name": newName.value,
     "formatted_address": newAdress.value,
     "formatted_phone_number": newPhone.value,
+    "id": id,
     "geometry":{
       "viewport":{
         "b":{"b":newPosition.lng},
@@ -188,10 +190,14 @@ function addNewRestaurant() {
     ]
   };
   data.push(newRestaurant);
-  console.log(data);
   resetRestaurantList();
   resetRestaurantMap();
   closeInputWindow();
+}
+
+function submitForm() {
+  event.preventDefault();
+  addNewRestaurant();
 }
 
 function addComment (element) {

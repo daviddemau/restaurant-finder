@@ -33,7 +33,7 @@
           <option selected="5.0" value="5.0">5</option>
         </select>
         <span><i class="fas fa-star"></i></span>
-        <input type="submit" class="submit" value="Rechercher">
+        <input class="submit" value="Rechercher">
       </div>
 <!-- restaurant list right column -->
       <ul class="list"></ul>
@@ -42,15 +42,15 @@
     </div>
   </div>
 <!-- div that appears to add a new restaurant -->
-  <form class="newRestaurantForm">
+  <form class="newRestaurantForm" onsubmit="submitForm();">
     <label>Nom du restaurant</label><i class="fa fa-times"></i>
-    <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant.." required>
+    <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant.." required="required" />
     <label>Adresse</label>
-    <input class="newRestaurantInput newAdress" type="text" placeholder="adresse.." required>
+    <input class="newRestaurantInput newAdress" type="text" placeholder="adresse.." required="required" />
     <label>Téléphone</label>
-    <input class="newRestaurantInput newPhone" type="text" placeholder="téléphone.." required>
+    <input class="newRestaurantInput newPhone" type="text" placeholder="téléphone.." required="required" />
     <label>Votre avis</label>
-    <input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required>
+    <input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required="required" />
     <label for="country">Note sur 5</label>
     <select class="newRating">
       <option value="1">1</option>
@@ -59,7 +59,7 @@
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <button class="newRestaurantSubmit" type="submit">Ajouter le restaurant</button>
+    <button type="submit" class="newRestaurantSubmit">Ajouter le restaurant</button>
   </form>
 
   <script src="ressources/restaurants.js" charset="utf-8"></script>
