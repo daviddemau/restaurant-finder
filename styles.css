@@ -28,10 +28,24 @@ h2 {
 /* -------------------------------------------------- */
 
 .map {
+  margin-top: 30px;
   width: 60%;
   height: 100%;
   display: inline-block;
   float: left;
+}
+
+.message {
+  position: absolute;
+  font-size: 10px;
+  width: 800px;
+  text-align: center;
+  color: #4bba50;
+}
+
+.message strong {
+  margin-right: 10px;
+  font-size: 12px;
 }
 
 h3  {
