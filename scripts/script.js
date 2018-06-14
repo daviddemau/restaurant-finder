@@ -1,6 +1,5 @@
 //array that stores all restaurants objects
 let data = [];
-let newPlacesIds = [];
 
 //variables
 let openingStatus;
@@ -220,8 +219,6 @@ function addComment (element) {
       };
 
       targetedRestaurant.reviews.push(newCommentObject);
-      ///reset data
-
       resetRestaurantList();
       resetRestaurantMap();
     }

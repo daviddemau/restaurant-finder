@@ -1,4 +1,6 @@
 let markers = [];
+let myPositionMarker;
+let foodMarker;
 
 //inititate google Maps and google Places
 function initMap() {
@@ -19,14 +21,16 @@ function initMap() {
       map.setCenter(myPosition);
 
       //marker displaying user location
-      let marker = new google.maps.Marker({
+      myPositionMarker = new google.maps.Marker({
         position: myPosition,
         map: map,
       });
-      marker.info = new google.maps.InfoWindow({
-        content: "Vous Êtes Ici",
+
+      myPositionMarker.info = new google.maps.InfoWindow({
+        content: "Votre position actuelle",
       });
-      google.maps.event.addListener(marker, 'click', function () {
+
+      google.maps.event.addListener(myPositionMarker, 'click', function () {
         this.info.open(map, this);
       });
 
@@ -47,6 +51,33 @@ function initMap() {
           "lat": event.latLng.lat(),
           "lng": event.latLng.lng(),
         }
+      });
+
+      //right-click event: search for new restaurant informations based on click location. Look for restaurants anywhere on the map for better user experience.
+      google.maps.event.addListener(map, 'rightclick', function(event) {
+        data = [];
+        map.setCenter(event.latLng);
+        let request = {
+          location: event.latLng,
+          radius: '1000',
+          type: ['restaurant']
+        };
+        myPositionMarker.setMap(null);
+        removeMarkers();
+        myPositionMarker = new google.maps.Marker({
+          position: event.latLng,
+          map: map,
+        });
+        myPositionMarker.info = new google.maps.InfoWindow({
+          content: "Votre position actuelle",
+        });
+        myPosition = {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng()
+        };
+        data = [];
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, callback);
       });
 
       //Places API method: find nearBy restaurants (via restaurant IDs)
@@ -84,9 +115,9 @@ function callback(results, status) {
 
       function callback(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-          // getPositions(place);
+          list.innerHTML = '';
           displayRestaurantsMap(place);
-          displayRestaurantsList(place);
+          resetRestaurantList();
           data.push(place);
         }
       }
@@ -104,7 +135,7 @@ function displayRestaurantsMap(place) {
     getCommentsList(place);
   if(averageRatings >= filter1.value && averageRatings <= filter2.value || averageRatings == '') {
     getPositions(place);
-    let foodMarker = new google.maps.Marker({
+    foodMarker = new google.maps.Marker({
       position: {lat: lat, lng: lng},
       map: map,
       icon: image,
