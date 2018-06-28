@@ -1,6 +1,9 @@
 let markers = [];
 let myPositionMarker;
 let foodMarker;
+let circle;
+let center;
+
 
 //inititate google Maps and google Places
 function initMap() {
@@ -39,6 +42,15 @@ function initMap() {
         url: 'ressources/restaurant.png',
       };
 
+      //Places API method: find nearBy restaurants (via restaurant IDs)
+      let request = {
+        location: myPosition,
+        radius: '1000',
+        type: ['restaurant']
+      };
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, callback);
+
       //get infos about restaurants then display on map
       data.forEach((element) => {
         displayRestaurantsMap(element);
@@ -54,40 +66,62 @@ function initMap() {
       });
 
       //right-click event: search for new restaurant informations based on click location. Look for restaurants anywhere on the map for better user experience.
-      google.maps.event.addListener(map, 'rightclick', function(event) {
-        data = [];
-        map.setCenter(event.latLng);
-        let request = {
-          location: event.latLng,
-          radius: '1000',
-          type: ['restaurant']
-        };
-        myPositionMarker.setMap(null);
+      // google.maps.event.addListener(map, 'rightclick', function(event) {
+      //   data = [];
+      //   map.setCenter(event.latLng);
+      //   let request = {
+      //     location: event.latLng,
+      //     radius: '1000',
+      //     type: ['restaurant']
+      //   };
+      //   myPositionMarker.setMap(null);
+      //   removeMarkers();
+      //   myPositionMarker = new google.maps.Marker({
+      //     position: event.latLng,
+      //     map: map,
+      //   });
+      //   myPositionMarker.info = new google.maps.InfoWindow({
+      //     content: "Votre position actuelle",
+      //   });
+      //   myPosition = {
+      //     lat: event.latLng.lat(),
+      //     lng: event.latLng.lng()
+      //   };
+      //   service = new google.maps.places.PlacesService(map);
+      //   service.nearbySearch(request, callback);
+      // });
+
+      //change search radius when zoom changes
+      google.maps.event.addListener(map, 'zoom_changed', function(event) {
         removeMarkers();
-        myPositionMarker = new google.maps.Marker({
-          position: event.latLng,
-          map: map,
-        });
-        myPositionMarker.info = new google.maps.InfoWindow({
-          content: "Votre position actuelle",
-        });
-        myPosition = {
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng()
+        data = [];
+        getRadius();
+        request = {
+          location: center,
+          radius: radius,
+          type: ['restaurant']
         };
         service = new google.maps.places.PlacesService(map);
         service.nearbySearch(request, callback);
       });
 
-      //Places API method: find nearBy restaurants (via restaurant IDs)
-      let request = {
-        location: myPosition,
-        radius: '1000',
-        type: ['restaurant']
-      };
 
-      service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
+//drag the map event
+      // google.maps.event.addListener(map, 'drag', function(event) {
+      //   removeMarkers();
+      //   data = [];
+      //   getRadius();
+      //   request = {
+      //     location: center,
+      //     radius: radius,
+      //     type: ['restaurant']
+      //   };
+      //   service = new google.maps.places.PlacesService(map);
+      //   service.nearbySearch(request, callback);
+      // });
+      //
+      //
+
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -119,7 +153,6 @@ function callback(results, status) {
 }
 
 function callback2(place, status) {
-  console.log(place)
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     // list.innerHTML = '';
     displayRestaurantsMap(place);
@@ -208,6 +241,26 @@ function checkOpeningStatus(place) {
   }
 }
 
-
-
-// let map, myPosition, infoWindow, image, contentString, newPosition, service;
+function getRadius() {
+  if(circle !== undefined) {
+    circle.setMap(null);
+  }
+  //get radius of viewable map
+  var bounds = map.getBounds();
+  center = map.getCenter();
+  if (bounds && center) {
+    var ne = bounds.getNorthEast();
+    // Calculate radius (in meters).
+    radius = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
+    radius = radius * 0.6;
+  }
+  circle = new google.maps.Circle({
+  map: map,
+  radius: radius,
+  fillColor: '#f2eded',
+  strokeColor: '#31ac3d',
+  strokeOpacity: 0.9,
+  strokeWeight: 0.5,
+  center: center
+});
+}
