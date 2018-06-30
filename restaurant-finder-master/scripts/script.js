@@ -115,7 +115,7 @@ function centerMap(element) {
       element.nextSibling.style.display = 'block';
     } else {
       markers[rank].info.close(map,markers[rank]);
-      map.panTo(myPosition);
+      map.panTo(center);
       element.nextSibling.style.display = '';
     }
   })
@@ -156,9 +156,11 @@ function toggleShow(element) {
 function closeInputWindow() {
   document.querySelector('.main').style.filter = 'none';
   newRestaurantForm.style.display = 'none';
+  document.querySelector('.main').style.pointerEvents = "auto";
 }
 
 function openInputWindow() {
+  document.querySelector('.main').style.pointerEvents = "none";
   newRestaurantForm.reset();
   document.querySelector('.main').style.filter = 'blur(10px)';
   newRestaurantForm.style.display = 'block';
@@ -176,10 +178,7 @@ function addNewRestaurant() {
     "formatted_phone_number": newPhone.value,
     "id": id,
     "geometry":{
-      "viewport":{
-        "b":{"b":newPosition.lng},
-        "f":{"f":newPosition.lat}
-      },
+      "location": newPosition
     },
     "reviews":[
       {

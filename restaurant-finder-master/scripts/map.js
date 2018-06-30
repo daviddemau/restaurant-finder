@@ -3,6 +3,8 @@ let myPositionMarker;
 let foodMarker;
 let circle;
 let center;
+let radius;
+let map;
 
 
 //inititate google Maps and google Places
@@ -43,85 +45,18 @@ function initMap() {
       };
 
       //Places API method: find nearBy restaurants (via restaurant IDs)
-      let request = {
-        location: myPosition,
-        radius: '1000',
-        type: ['restaurant']
-      };
-      service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
+      callPlacesApi();
 
       //get infos about restaurants then display on map
       data.forEach((element) => {
         displayRestaurantsMap(element);
       });
 
-      //click event on the map : add a new restaurant
-      google.maps.event.addListener(map, 'click', function(event) {
-        openInputWindow();
-        newPosition = {
-          "lat": event.latLng.lat(),
-          "lng": event.latLng.lng(),
-        }
-      });
-
-      //right-click event: search for new restaurant informations based on click location. Look for restaurants anywhere on the map for better user experience.
-      // google.maps.event.addListener(map, 'rightclick', function(event) {
-      //   data = [];
-      //   map.setCenter(event.latLng);
-      //   let request = {
-      //     location: event.latLng,
-      //     radius: '1000',
-      //     type: ['restaurant']
-      //   };
-      //   myPositionMarker.setMap(null);
-      //   removeMarkers();
-      //   myPositionMarker = new google.maps.Marker({
-      //     position: event.latLng,
-      //     map: map,
-      //   });
-      //   myPositionMarker.info = new google.maps.InfoWindow({
-      //     content: "Votre position actuelle",
-      //   });
-      //   myPosition = {
-      //     lat: event.latLng.lat(),
-      //     lng: event.latLng.lng()
-      //   };
-      //   service = new google.maps.places.PlacesService(map);
-      //   service.nearbySearch(request, callback);
-      // });
+      //change search radius when zoom changes
+      google.maps.event.addListener(map, 'zoom_changed', callPlacesApi);
 
       //change search radius when zoom changes
-      google.maps.event.addListener(map, 'zoom_changed', function(event) {
-        removeMarkers();
-        data = [];
-        getRadius();
-        request = {
-          location: center,
-          radius: radius,
-          type: ['restaurant']
-        };
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, callback);
-      });
-
-
-//drag the map event
-      // google.maps.event.addListener(map, 'drag', function(event) {
-      //   removeMarkers();
-      //   data = [];
-      //   getRadius();
-      //   request = {
-      //     location: center,
-      //     radius: radius,
-      //     type: ['restaurant']
-      //   };
-      //   service = new google.maps.places.PlacesService(map);
-      //   service.nearbySearch(request, callback);
-      // });
-      //
-      //
-
+      google.maps.event.addListener(map, 'dragend', callPlacesApi);
 
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -132,6 +67,20 @@ function initMap() {
   }
 }
 
+
+//functions
+function callPlacesApi() {
+  removeMarkers();
+  data = [];
+  getRadius();
+  let request = {
+    location: center,
+    radius: radius,
+    type: ['restaurant']
+  };
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
 
 //callback from places
 function callback(results, status) {
@@ -146,7 +95,7 @@ function callback(results, status) {
         placeId: results[i]['place_id']
         }
       service.getDetails(request, callback2);
-      }, i < 9 ? 0 : 200 * i);
+    }, i < 9 ? 100 : 200 * i);
     })(i);
   }
 }
@@ -263,4 +212,11 @@ function getRadius() {
   strokeWeight: 0.5,
   center: center
 });
+
+//click on restaurant search zone : add a new restaurant
+google.maps.event.addListener(circle, 'click', function(event) {
+  openInputWindow();
+  newPosition = event.latLng
+});
+
 }
