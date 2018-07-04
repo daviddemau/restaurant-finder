@@ -35,7 +35,6 @@ filterButton.addEventListener('click', () => {
 //close new restaurant form on close tag
 closeInput.addEventListener('click', closeInputWindow);
 
-
 //functions
 function resetRestaurantList() {
   list.innerHTML = '';

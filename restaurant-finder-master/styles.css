@@ -255,6 +255,9 @@ form select {
   float: right;
   width: 100px;
 }
+form h2 {
+  margin-left: 0;
+}
 
 .fa-times:before {
 right: 32px;

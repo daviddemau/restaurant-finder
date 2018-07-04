@@ -1,20 +1,13 @@
-let markers = [];
-let myPositionMarker;
-let foodMarker;
-let circle;
-let center;
-let radius;
-let map;
-
+//variables
+let markers = [], myPositionMarker, foodMarker, circle, center, radius, map;
 
 //inititate google Maps and google Places
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
-    center: {lat: 48.8566, lng: 2.3522},
     zoom: 15
   });
 
-  //get our current location (latitude and longitude)
+  //basic settings with user location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       myPosition = {
@@ -30,21 +23,19 @@ function initMap() {
         position: myPosition,
         map: map,
       });
-
       myPositionMarker.info = new google.maps.InfoWindow({
         content: "Votre position actuelle",
       });
-
       google.maps.event.addListener(myPositionMarker, 'click', function () {
         this.info.open(map, this);
       });
 
-      //icon that represents a restaurant on the map
+      //restaurants icon
       image = {
         url: 'ressources/restaurant.png',
       };
 
-      //Places API method: find nearBy restaurants (via restaurant IDs)
+      //Google Places API call: find restaurants within specific radius (obtain Places Ids with nearBy() method then use getDetails() method)
       callPlacesApi();
 
       //get infos about restaurants then display on map
@@ -79,12 +70,11 @@ function callPlacesApi() {
     type: ['restaurant']
   };
   service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+  service.nearbySearch(request, callback1);
 }
 
-//callback from places
-function callback(results, status) {
-  service = new google.maps.places.PlacesService(map);
+//callback from Google Places API calls
+function callback1(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
   // You seem to have a pool of 9 or 10 requests to exhaust,
@@ -110,7 +100,7 @@ function callback2(place, status) {
   }
 }
 
-
+//functions
 function resetRestaurantMap() {
   removeMarkers();
   data.forEach((restaurant) => displayRestaurantsMap(restaurant));
@@ -182,11 +172,11 @@ function checkOpeningStatus(place) {
   if ('opening_hours' in place) {
     if(place.opening_hours.open_now) {
       openingStatus = 'OUVERT';
-      // openingStatus.style.color = "#4bba50";
     } else {
       openingStatus = 'FERME';
-      // openingStatus.style.color = "red";
     }
+  } else {
+    openingStatus = undefined;
   }
 }
 
@@ -218,5 +208,4 @@ google.maps.event.addListener(circle, 'click', function(event) {
   openInputWindow();
   newPosition = event.latLng
 });
-
 }
