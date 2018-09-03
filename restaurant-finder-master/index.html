@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Geolocation</title>
+  <title>Restaurant Finder</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <link rel="stylesheet" href="styles.css">
@@ -12,16 +12,16 @@
 <body>
   <div class="main">
     <div class="message">
-      <p><strong>ASTUCE:</strong>Zoomez et/ou circulez sur la carte pour obtenir de nouveaux restaurants!</p>
+      <p><strong>TIP:</strong>Zoome and/or move around the map to generate new restaurants!</p>
     </div>
 
     <div class="map">
     </div>
     <div class="reviews">
-      <h2>Liste des restaurants près de chez vous:</h2>
+      <h2>Restaurants near your position:</h2>
       <div class="filterText">
   <!-- filter restaurant list based on ratings -->
-        <span>Avis entre</span>
+        <span>Ratings between</span>
         <select class="filter1">
           <option value="1.0">1</option>
           <option value="2.0">2</option>
@@ -29,7 +29,7 @@
           <option value="4.0">4</option>
           <option value="5.0">5</option>
         </select>
-        <span>et </span>
+        <span>and </span>
         <select class="filter2">
           <option value="1.0">1</option>
           <option value="2.0">2</option>
@@ -38,10 +38,11 @@
           <option selected="5.0" value="5.0">5</option>
         </select>
         <span><i class="fas fa-star"></i></span>
-        <input type= "button" class="submit" value="Rechercher">
+        <input type= "button" class="submit" value="Search">
       </div>
 <!-- restaurant list right column -->
-      <ul class="list"></ul>
+      <ul class="list">
+      </ul>
     </div>
     <div class="newPlaceInfos">
     </div>
@@ -72,7 +73,7 @@
   </script>
   <script src="ressources/restaurants.js" charset="utf-8"></script>
   <script type="text/javascript" src="scripts/map.js"></script>
-  <script type="text/javascript" src="scripts/script.js"></script>
+  <script type="text/javascript" src="scripts/interactions.js"></script>
 
 </body>
 </html>
