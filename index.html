@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Finder</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/queries.css">
+  <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+<body>
+  <div class="main">
+    <div class="message">
+      <p><strong>TIP:</strong>Zoom and/or move around the map to generate new restaurants!</p>
+    </div>
+    <div class="map">
+    </div>
+    <div class="reviews">
+      <h2>Restaurants near your position:</h2>
+      <div class="filterText">
+
+  <!-- filter restaurant based on ratings -->
+        <span>Ratings between</span>
+        <select class="filter1">
+          <option value="1.0">1</option>
+          <option value="2.0">2</option>
+          <option value="3.0">3</option>
+          <option value="4.0">4</option>
+          <option value="5.0">5</option>
+        </select>
+        <span>and </span>
+        <select class="filter2">
+          <option value="1.0">1</option>
+          <option value="2.0">2</option>
+          <option value="3.0">3</option>
+          <option value="4.0">4</option>
+          <option selected="5.0" value="5.0">5</option>
+        </select>
+        <span><i class="fas fa-star"></i></span>
+        <input type= "button" class="submit" value="Search">
+      </div>
+
+<!-- restaurant list right column -->
+      <ul class="list">
+      </ul>
+    </div>
+    <div class="newPlaceInfos">
+    </div>
+  </div>
+
+<!-- div that appears to add a new restaurant -->
+  <form class="newRestaurantForm" onsubmit="submitForm();">
+    <h2>Add new restaurant</h2>
+    <label>Name</label><i class="fa fa-times"></i>
+    <input class="newRestaurantInput newName" type="text" placeholder="name.." required="required" />
+    <label>Adresse</label>
+    <input class="newRestaurantInput newAdress" type="text" placeholder="address.." required="required" />
+    <label>Phone number</label>
+    <input class="newRestaurantInput newPhone" type="text" placeholder="phone.." required="required" />
+    <label>Your thoughts</label>
+    <input class="newRestaurantInput newComment" type="text" placeholder="your comments.." required="required" />
+    <label for="country">Your grade</label>
+    <select class="newRating">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <button type="submit" class="newRestaurantSubmit">Add restaurant</button>
+  </form>
+
+  <script type="text/javascript" src="scripts/map-generator.js"></script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy2o8ardrB-Njyi7V_90eAiuI_Kk5B4u8&callback=initMap&libraries=places,geometry">
+  </script>
+  <script src="ressources/restaurants.js" charset="utf-8"></script>
+  <script type="text/javascript" src="scripts/interactions.js"></script>
+
+</body>
+</html>
