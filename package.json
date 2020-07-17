@@ -1,0 +1,19 @@
+{
+  "name": "restaurant-finder",
+  "version": "1.0.0",
+  "description": "Find your favorite restaurants on the go, and leave comments if you wish to",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daviddemau/restaurant-finder.git"
+  },
+  "author": "David Demau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daviddemau/restaurant-finder/issues"
+  },
+  "homepage": "https://github.com/daviddemau/restaurant-finder#readme"
+}
