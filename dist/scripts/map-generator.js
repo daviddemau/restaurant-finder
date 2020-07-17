@@ -1,7 +1,9 @@
-//variables
+// variables
 let markers = [], myPositionMarker, foodMarker, circle, center, radius, map;
 
-//inititate google Maps and google Places
+// initiate google Maps and google Places
+window.onload = initMap;
+
 function initMap() {
   map = new google.maps.Map(document.querySelector('.map'), {
     zoom: 15,
@@ -11,16 +13,16 @@ function initMap() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
 
-      //define user position object
+      // define user position object
       myPosition = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
 
-      //center the map on user location
+      // center the map on user location
       map.setCenter(myPosition);
 
-      //marker displaying user location
+      // marker displaying user location
       myPositionMarker = new google.maps.Marker({
         position: myPosition,
         map: map,
@@ -37,18 +39,18 @@ function initMap() {
         url: 'ressources/restaurant.png',
       };
 
-      //Google Places API call: find restaurants within specific radius
+      // Google Places API call: find restaurants within specific radius
       callPlacesApi();
 
-      //get infos about restaurants then display on map
+      // get infos about restaurants then display on map
       data.forEach((element) => {
         displayRestaurantsMap(element);
       });
 
-      //change search radius when zoom changes
+      // change search radius when zoom changes
       google.maps.event.addListener(map, 'zoom_changed', callPlacesApi);
 
-      //change search radius when zoom changes
+      // change search radius when moving on the map
       google.maps.event.addListener(map, 'dragend', callPlacesApi);
 
     }, function () {
@@ -60,7 +62,6 @@ function initMap() {
   }
 }
 
-//functions
 function callPlacesApi() {
   removeMarkers();
   data = [];
@@ -74,9 +75,8 @@ function callPlacesApi() {
   service.nearbySearch(request, callback1);
 }
 
-//callback from Google Places API calls
 function callback1(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       // You seem to have a pool of 9 or 10 requests to exhaust,
       // then you get another request every second
@@ -93,7 +93,7 @@ function callback1(results, status) {
 }
 
 function callback2(place, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
     data.push(place);
     displayRestaurantsMap(place);
     resetRestaurantList();
@@ -134,16 +134,16 @@ function createInfosWindows(restaurant) {
   contentString = '<div class="infosMap">' + '<h3>' + restaurant.name + '</h3>' +
   '<img class="map-image" src="https://maps.googleapis.com/maps/api/streetview?size=220x100&location=' +
    lat + ',' + lng + '&heading=151.78&pitch=-0.76&key=AIzaSyB7_0Zol2YjzYkQEXqK1QBOfXYkF9-RZds"></img>'
-  + '<p>' + '<span>' + 'Moyenne des avis: ' + '</span>' + averageRatings + '<i class="fas fa-star"></i>'
-  + '</p>' + '<p>' + '<span>' + 'Adresse: ' + '</span>' + restaurant.formatted_address +
+  + '<p>' + '<span>' + 'Average rating: ' + '</span>' + averageRatings + '<i class="fas fa-star"></i>'
+  + '</p>' + '<p>' + '<span>' + 'Adress: ' + '</span>' + restaurant.formatted_address +
   '</p>';
 
   if (restaurant.formatted_phone_number != undefined) {
-    contentString += '<p>' + '<span>' +'Numéro de téléphone: ' + '</span>' + restaurant.formatted_phone_number + '</p>';
+    contentString += '<p>' + '<span>' +'Phone number: ' + '</span>' + restaurant.formatted_phone_number + '</p>';
   }
 
   if (openingStatus != undefined) {
-    contentString += '<p>' + '<span>' +'Status actuel: ' + '</span>' + '<span class=' + '"' + openingStatus + '"' + '>' + openingStatus + '</span>' + '</p>';
+    contentString += '<p>' + '<span>' +'Current opening status: ' + '</span>' + '<span class=' + '"' + openingStatus + '"' + '>' + openingStatus + '</span>' + '</p>';
   }
 }
 
@@ -162,17 +162,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     markers = [];
   }
 
-  function placeMarker(location) {
-    foodMarker = new google.maps.Marker({
-      position: {lat: location.lat, lng:location.lng},
-      map: map,
-      icon: image
-    });
-  }
-
   function checkOpeningStatus(place) {
     if ('opening_hours' in place) {
-      if(place.opening_hours.open_now) {
+      if (place.opening_hours.isOpen()) {
         openingStatus = 'OUVERT';
       } else {
         openingStatus = 'FERME';

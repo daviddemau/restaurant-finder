@@ -199,14 +199,14 @@ function submitForm() {
 
 function addComment (element) {
   element.addEventListener('keypress', (event) => {
-    if(event.keyCode == 13) {
+    if(event.keyCode === 13) {
       let targetedRestaurant;
       let commentRating = element.previousSibling;
       let id = element.getAttribute('data_id');
 
       //find corresponding restaurant via id
       data.forEach((place) => {
-        if(place.id == id) {
+        if(place.id === id) {
           targetedRestaurant = place;
         }
       })
@@ -222,3 +222,12 @@ function addComment (element) {
     }
   });
 }
+
+function placeMarker(location) {
+  foodMarker = new google.maps.Marker({
+    position: {lat: location.lat, lng:location.lng},
+    map: map,
+    icon: image
+  });
+}
+

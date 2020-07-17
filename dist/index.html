@@ -4,23 +4,23 @@
   <title>Restaurant Finder</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="queries.css">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/queries.css">
   <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 </head>
 <body>
   <div class="main">
     <div class="message">
-      <p><strong>TIP:</strong>Zoome and/or move around the map to generate new restaurants!</p>
+      <p><strong>TIP:</strong>Zoom and/or move around the map to generate new restaurants!</p>
     </div>
-
     <div class="map">
     </div>
     <div class="reviews">
       <h2>Restaurants near your position:</h2>
       <div class="filterText">
-  <!-- filter restaurant list based on ratings -->
+
+  <!-- filter restaurant based on ratings -->
         <span>Ratings between</span>
         <select class="filter1">
           <option value="1.0">1</option>
@@ -40,6 +40,7 @@
         <span><i class="fas fa-star"></i></span>
         <input type= "button" class="submit" value="Search">
       </div>
+
 <!-- restaurant list right column -->
       <ul class="list">
       </ul>
@@ -47,18 +48,19 @@
     <div class="newPlaceInfos">
     </div>
   </div>
+
 <!-- div that appears to add a new restaurant -->
   <form class="newRestaurantForm" onsubmit="submitForm();">
-    <h2>Ajouter un restaurant</h2>
-    <label>Nom du restaurant</label><i class="fa fa-times"></i>
-    <input class="newRestaurantInput newName" type="text" placeholder="nom du restaurant.." required="required" />
+    <h2>Add new restaurant</h2>
+    <label>Name</label><i class="fa fa-times"></i>
+    <input class="newRestaurantInput newName" type="text" placeholder="name.." required="required" />
     <label>Adresse</label>
-    <input class="newRestaurantInput newAdress" type="text" placeholder="adresse.." required="required" />
-    <label>Téléphone</label>
-    <input class="newRestaurantInput newPhone" type="text" placeholder="téléphone.." required="required" />
-    <label>Votre avis</label>
-    <input class="newRestaurantInput newComment" type="text" placeholder="votre commentaire.." required="required" />
-    <label for="country">Note sur 5</label>
+    <input class="newRestaurantInput newAdress" type="text" placeholder="address.." required="required" />
+    <label>Phone number</label>
+    <input class="newRestaurantInput newPhone" type="text" placeholder="phone.." required="required" />
+    <label>Your thoughts</label>
+    <input class="newRestaurantInput newComment" type="text" placeholder="your comments.." required="required" />
+    <label for="country">Your grade</label>
     <select class="newRating">
       <option value="1">1</option>
       <option value="2">2</option>
@@ -66,16 +68,15 @@
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <button type="submit" class="newRestaurantSubmit">Ajouter le restaurant</button>
+    <button type="submit" class="newRestaurantSubmit">Add restaurant</button>
   </form>
+
+  <script type="text/javascript" src="scripts/map-generator.js"></script>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy2o8ardrB-Njyi7V_90eAiuI_Kk5B4u8&callback=initMap&libraries=places,geometry">
   </script>
   <script src="ressources/restaurants.js" charset="utf-8"></script>
-  <script type="text/javascript" src="scripts/map.js"></script>
   <script type="text/javascript" src="scripts/interactions.js"></script>
 
 </body>
 </html>
-
-<!-- API KEY PLACES: AIzaSyCd8PvofRH5oYJ3w_M2YqICWQzdyrz3yXY -->
